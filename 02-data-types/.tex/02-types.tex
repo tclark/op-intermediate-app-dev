@@ -1,0 +1,313 @@
+% Beamer slide template prepared by Tom Clark <tom.clark@op.ac.nz>
+% Otago Polytechnic
+% Dec 2012
+
+\documentclass[10pt]{beamer}
+\usetheme{Dunedin}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+
+\title{Data Types}
+
+\author[IN608]{Intermediate Application Development}
+\institute[Otago Polytechnic]{
+  Otago Polytechnic \\
+  Dunedin, New Zealand \\
+  Kaiako: Tom Clark
+}
+\date{}
+\begin{document}
+
+%----------- titlepage ----------------------------------------------%
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Types in Python}
+   
+   Python has most of the types with which you're already familiar. Its
+   built in collection types are a bit more powerful and flexible than 
+   those seen in other languages, so we'll mostly talk about them.
+
+   First, though, we need to talk about three core ideas:
+   \begin{itemize}
+     \item variables
+	 \item mutabilty vs. immutability
+	 \item equality vs. identity
+   \end{itemize}
+      
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Variables}
+   
+  A Python variable can be regarded as a reference to a value.
+
+  \texttt{ a = 4}
+
+  \texttt{ a } is a variable that now refers to the integer value \texttt{ 4}.
+      
+  \texttt{ a = 'cat'}
+
+  Now \texttt{ a } refers to the string value \texttt{'cat'}.
+  
+  \texttt{ b = a}
+  
+  \texttt{b} is a variable that refers to the same value that \texttt{a} does  (for now). 
+
+  \texttt{ a = 4}
+
+  Now \texttt{a} refers to \texttt{4} again. To what does \texttt{b} refer?
+  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Immutable values}
+   
+  A lot of the primitive values in Python are \emph{immutable}, i.e., they can't
+  be changed. Integers are an obvious example.
+
+  \texttt{a = 4}
+
+  \texttt{a = 5}
+  
+  We did't change the value of \texttt{4} here. We just made \texttt{a} point to a
+  different value.
+  
+  Numeric types, strings, and some other types are immutable, but others are not.
+  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Mutable values}
+   
+  One example of a mutable type is a \emph{list}. (We'll talk more about these in a few minutes.)
+
+  \texttt{a = [1, 2, 3]}
+  
+  \texttt{a} is a list that contains the integers 1, 2, and 3.
+
+  \texttt{a.append(4)}
+  
+  Now the list contains 1, 2, 3, and 4 - but it's still the \textbf{same} list. 
+  
+  \texttt{b = a}
+  
+  \texttt{b} refers to the same list that \texttt{a} does.
+  
+  \texttt{a.append(5)}
+  
+  Now what is the value of \texttt{b}?
+  
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Equality vs. Identity}
+   
+   There are two ways to compare objects in Python.
+   \vspace{5mm}
+   \texttt{a == b} means that \texttt{a} and \texttt{b} have the same \emph{value}.
+   
+   \vspace{5mm}
+   \texttt{a is b} means that \texttt{a} and \texttt{b} refer to the same \emph{object}.
+
+  \vspace{5mm}
+   \begin{verbatim}
+   
+    > a = 4
+    > b = a
+    > a == b
+    True   # Good!
+    > a is b
+    True   # Also good
+   
+   
+   \end{verbatim}
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Equality vs. Identity}
+   
+   Remember:
+   
+   \texttt{a == b} means that \texttt{a} and \texttt{b} have the same \emph{value}.
+   
+   \texttt{a is b} means that \texttt{a} and \texttt{b} refer to the same \emph{object}.
+
+  
+   \begin{verbatim}
+  
+    > a = 5
+    > b = 5
+    > a == b
+    True   # No suprise
+    > a is b
+    True   # Hmmm...
+    > a = 55555
+    > b = 55555
+    > a == b
+    True   # Whew
+    > a is b
+    False  # Wat?
+   
+   \end{verbatim}
+  
+  
+\end{frame}
+\begin{frame}
+  \frametitle{Programming Activity}
+  
+  \begin{enumerate}
+    \item Pull the course materials repo.
+    \item Create a new branch, \texttt{02-practical} in your practicals repo.
+    \item Add a subdirectory,  \texttt{02-practical} and copy \texttt{02-practical.ipynb} from the class materials into it.
+    \item Open a shell, cd to this directory, and run \texttt{jupyter notebook} to open the notebook. Complete the first questions.
+    \item We will discuss results in 20ish minutes.
+  \end{enumerate}      
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Lists}
+   
+   \begin{itemize}
+     \item Ordered collection of values
+     \item Can be indexed by integer position
+     \item Mutable
+   
+   \end{itemize}
+   
+   
+
+  
+   \begin{verbatim}
+  
+      nums = [1, 2, 3, 4, 5] # Homogeneous
+      hetero = [1, 'C#', True, 2, 'Java'] # Heterogeneous
+      print(type(nums)) # <class ?list?>
+   
+   \end{verbatim}
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Tuples}
+   
+   \begin{itemize}
+     \item Ordered collection of values
+     \item Can be indexed by integer position
+     \item Immutable, BUT can contain mutable values, e.g., lists
+   
+   \end{itemize}   
+   
+
+  
+   \begin{verbatim}
+  
+      nums = (1, 2, 3, 4, 5) # Homogeneous
+      hetero = (1, 'C#', True, 2, 'Java') # Heterogeneous
+      print(type(nums)) # <class 'tuple'>
+   
+   \end{verbatim}
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Sets}
+   
+      
+   \begin{itemize}
+     \item Unordered collection of values
+     \item Doesn't contain duplicate values
+     \item Mutable
+   
+   \end{itemize} 
+
+  
+   \begin{verbatim}
+      nums = {1, 2, 3, 4, 4} # Homogeneous
+      hetero = {1, 'C#', True, 2, 2} # Heterogeneous
+      print(type(nums)) # <class 'set'>
+      print(nums) # {1, 2, 3, 4}
+      print(hetero) # {'C#', 1, 2}
+   
+   
+   \end{verbatim}
+   
+   Why doesn't \texttt{True} appear in the values when we print \texttt{hetero}?
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Dictionaries}
+   
+   
+   \begin{itemize}
+     \item Unordered collection of key/value pairs
+     \item Mutable
+     \item Keys can be any immutable object
+   
+   \end{itemize} 
+   
+
+  
+   \begin{verbatim}
+      ig_user_one = {'username': 'john_doe', 'active': False, 'followers': 150}
+      ig_user_two = {'username': 'jane_doe', 'active': True, 'followers': 500}
+      print(type(ig_user_one)) # <class 'dict'>
+      print(ig_user_one['username']) # john_doe
+      print(ig_user_two['followers']) # 500
+   
+   
+   \end{verbatim}
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Strings}
+   
+   \begin{itemize}
+     \item Ordered collection of unicode character values
+     \item Can be indexed by integer position
+     \item Immutable
+     \item They print nicely
+   
+   \end{itemize}     
+   
+
+  
+   \begin{verbatim}
+       st = 'I have a cat named Lola.'
+       print(type(st)) # <class 'str'>
+   
+   
+   \end{verbatim}
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{A key point}
+   
+   Python's collection types are very flexible and powerful. They come 
+   with many built-in methods. You can solve many common problems using 
+   just these types.
+     
+\end{frame}
+
+
+\end{document}
