@@ -1,0 +1,206 @@
+% Beamer slide template prepared by Tom Clark <tom.clark@op.ac.nz>
+% Otago Polytechnic
+% Dec 2012
+
+\documentclass[10pt]{beamer}
+\usetheme{Dunedin}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+
+\title{Operator Overloading and Dunder Methods}
+
+\author[IN608]{Intermediate Application Development}
+\institute[Otago Polytechnic]{
+  Otago Polytechnic \\
+  Dunedin, New Zealand \\
+  Kaiako: Tom Clark
+}
+\date{}
+\begin{document}
+
+%----------- titlepage ----------------------------------------------%
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Let's add two integers}
+  
+  Suppose we want to add two integers, say 2 and 3. Addition of integers
+  is a function that takes two arguments and returns their sum. We might 
+  expect to write it this way:
+  
+  \vspace{5mm}
+  \texttt{add(2,3)}
+
+  \vspace{5mm}
+  or, if we're feeling particularly object oriented,
+
+  \vspace{5mm}
+  \texttt{2.add(3)}
+
+        
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Let's add two integers}
+  
+    But we don't do that. We generally we write it this way:
+
+  \vspace{5mm}
+  \texttt{ 2 + 3}
+
+  \vspace{5mm}
+  because somebody did it like that in 1360 and people liked it. The 
+  ``+'' symbol in this expression is an \emph{operator}.
+      
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Wow, that's handy}
+  
+  The ``+'' operator notation is so handy that we use it in other places
+
+  \vspace{5mm}
+  \texttt{> [3, 1, 4] + [22, 11]}
+  
+  \texttt{[3, 1, 4, 22, 11]}
+
+  \vspace{5mm}
+  It's not just ``+'' that gets this treatment.
+  
+  \vspace{5mm}
+  \texttt{> 3 * 'cat'}
+  
+  \texttt{'catcatcat'}
+
+  \vspace{5mm}
+   What if we wanted to do this for our own classes?    
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Dunder Methods}
+  
+  Every object in Python inherits some ``dunder'' methods. They're
+  also commonly called ``magic methods''. We've already seen two of these, 
+  \texttt{\_\_init\_\_()} and  \texttt{\_\_str\_\_()}. There are also other such methods
+  that we can choose to implement.
+  
+  \vspace{5mm}
+  It's bad practice to define new dunder methods, and it won't generally do what we want 
+  anyway. Also, it's possible to abuse dunder methods by implementing them in unexpected ways.
+  Don't do that.
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Operator overloading}
+  Suppose we define a class and would like to be able to add two objects of that 
+  class using ``+''. This would be an example of \emph{opertator overloading}.
+  
+  \begin{verbatim}
+  class Bill:
+      def __init__(self, items):
+          self.line_items = items # a list of item objects
+          
+      def __add__(self, other):
+          new_list = self.line_items + other.line_items
+          return Bill(new_list)
+  .
+  .
+  .        
+  b1 = Bill(some_items)            
+  b2 = Bill(some_other_items)
+  b3 = b1 + b2
+  \end{verbatim}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Programming Activity}
+  
+  \begin{enumerate}
+    \item Pull the course materials repo.
+    \item Create a new branch, \texttt{04-practical} in your practicals repo.
+    \item Add a subdirectory,  \texttt{04-practical} and copy \texttt{04-practical.ipynb} from the class materials into it.
+    \item Open a shell, cd to this directory, and run \texttt{jupyter notebook} to open the notebook. Complete the first questions.
+    \item We will discuss results in 30ish minutes.
+  \end{enumerate}      
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Other Dunder Methods}
+  
+  There are other handy dunder methods to implement that aren't strictly 
+  used for operator overloading 
+  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{\_\_str\_\_  and \_\_repr\_\_}
+  
+  We've already seen that we can use the \texttt{\_\_str\_\_()}
+  method to control what happens when our object is passed as an argument to 
+  \texttt{print()}. The general idea is that \texttt{\_\_str\_\_()} should return 
+  a user-friendly string.
+  
+  \vspace{5mm}
+  \texttt{\_\_repr\_\_()} is similar, but it should return a programmer-friendly string. A
+  good idea is to return a string that matches a call to the constructor method that returns
+  the given object.
+  
+  \begin{verbatim}
+  class Cat:
+      def __init__(self, name):
+          self.name = name
+          
+      def __repr__(self):
+          return f'Cat("{self.name}")'
+          
+  c  = Cat("Larry")
+  repr(c)                 
+  \end{verbatim}           
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\_\_len\_\_}
+  
+  We have seen that we can call \texttt{len()} on a list or
+  string to get its length. If we want to make this work for our own classes,
+  we implement \texttt{\_\_len\_\_()}.
+
+  \begin{verbatim}
+  class Bill:
+      def __init__(self, items):
+          self.line_items = items # a list of item objects
+          
+      def __len__(self):
+          return len(self.line_items}
+  \end{verbatim}        
+
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Conclusions}
+  
+   Operator overloading is somewhat controversial. Not all languages
+   support it and some programmers think it's a bad idea. I find it 
+   to be useful.
+   
+   Implementing appropriate dunder methods is a very ``Pythonic'' way to
+   do things. Well implemented dunder methods can make your classes easy 
+   and productive to use.
+        
+\end{frame}
+
+\end{document}
