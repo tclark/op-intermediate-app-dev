@@ -1,0 +1,341 @@
+% Beamer slide template prepared by Tom Clark <tom.clark@op.ac.nz>
+% Otago Polytechnic
+% Dec 2012
+
+\documentclass[10pt]{beamer}
+\usetheme{Dunedin}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+
+\title{Program Organisation: \\ Namespaces, Modules, Imports}
+
+\author[IN608]{Intermediate Application Development}
+\institute[Otago Polytechnic]{
+  Otago Polytechnic \\
+  Dunedin, New Zealand \\
+  Kaiako: Tom Clark
+}
+\date{}
+\begin{document}
+
+%----------- titlepage ----------------------------------------------%
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Introduction}
+  
+  My name is Tom. In many parts of the world that is a very common name.
+  So when we talk about ``Tom'', who exactly do we mean?
+  
+  \begin{itemize}
+    \item In this room, I'm probably the only person named Tom.
+    \item I appear to be the only Tom Clark at OP, so on campus my ``fully qualified'' name identifies me.
+    \item There are a lot of Tom Clarks in NZ, but if we say, ``The Tom Clark at Otago Polytech,'' we're talking about 
+    me.
+  \end{itemize}
+  
+  \vspace{5mm}
+  In the context of a running program, we have a similar problem.         
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{File: \texttt{example.py}}
+
+  \begin{Verbatim}[commandchars=\\\{\}]
+    import otagopolytech
+    
+    tom = "A really cool guy"
+    def enclose():
+        tom = "I guess he's ok"
+        def local():
+            tom = "What a jerk"
+            print(tom)
+        print(tom)
+        return local        
+    opinion_of_tom = enclose()
+    opinion_of_tom()   
+    print(tom)
+  \end{Verbatim}
+  What gets printed?
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Namespaces}
+  
+  In our example, the name \texttt{tom} gets used over and over, but they don't 
+  conflict because each one exists in a distinct \emph{namespace}. In a running 
+  Python program several namespaces may exist at any one time.
+  
+  \vspace{5mm}
+  When we use a name like \texttt{tom}, Python applies a set of rules for searching 
+  namespaces for that name.
+  
+     
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Global Namespace}
+
+  \begin{Verbatim}[commandchars=\\\{\}]
+    import otagopolytech
+    
+    \codeHighlight{tom = "A really cool guy"}
+    def enclose():
+    
+    ...
+  \end{Verbatim}
+  The first occurrence of \texttt{tom} is in a \emph{global} namespace. This
+  name is meaningful anywhere in the file. The
+  imported module \texttt{otagopolytechnic} actually defines a seperate, distinct
+  global namespace.
+  
+  
+\end{frame}
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Local Namespace}
+
+  \begin{Verbatim}[commandchars=\\\{\}]
+        ...
+        def local():
+            \codeHighlight{tom = "What a jerk"}
+            print(tom)
+        ...    
+  \end{Verbatim}
+  The innermost occurrence of \texttt{tom} is in a \emph{local} namespace. This
+  version of \texttt{tom} is only meaningful in the context of executing this function.  
+  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Enclosing Namespace}
+
+  \begin{Verbatim}[commandchars=\\\{\}]
+        ...
+   def enclose():
+        \codeHighlight{tom = "I guess he's ok"}    
+        def local():
+            tom = "What a jerk"
+            print(tom)
+        print(tom)
+        return local  
+        ...    
+  \end{Verbatim}
+  The function \texttt{enclose()} defines an \emph{enclosing} namespace. This
+  version of \texttt{tom} is meaningful in the context of the function \texttt{enclose()}
+  \textbf{and} within the enclosed function \texttt{local()}.  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Builtin Namespace}
+
+  \begin{Verbatim}[commandchars=\\\{\}]
+    import otagopolytech
+    
+    tom = "A really cool guy"
+    def enclose():
+        tom = "I guess he's ok"
+        def local():
+            tom = "What a jerk"
+            \codeHighlight{print}(tom)
+       \codeHighlight{print}(tom)
+        return local        
+    opinion_of_tom = enclose()
+    opinion_of_tom()   
+    \codeHighlight{print}(tom)
+  \end{Verbatim}
+  We didn't do anything to define \texttt{print()}. It is in the \emph{builtin} namespace.
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{LEGB}
+
+  When the Python interpreter looks for a name like \texttt{tom}, it searches
+  the namespaces in the order
+  
+  \begin{enumerate}
+    \item Local
+    \item Enclosing
+    \item Global
+    \item Builtin
+  \end{enumerate}  
+  
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{Programming Activity}
+  
+  \begin{enumerate}
+    \item Pull the course materials repo.
+    \item Create a new branch, \texttt{06-practical} in your practicals repo.
+    \item Add a subdirectory,  \texttt{06-practical} and copy \texttt{06-practical.ipynb} from the class materials into it.
+    \item Open a shell, cd to this directory, and run \texttt{jupyter notebook} to open the notebook. Complete the first questions.
+    \item We will discuss results in 30ish minutes.
+  \end{enumerate}      
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Imports}
+  
+  Suppose I have two files
+  \begin{verbatim}
+  mod.py
+  ------------
+  num = 42
+  def foo():
+      return 'bar'
+  
+  main.py
+  ------------
+  import mod
+  
+  print(mod.num)
+  baz = mod.foo()
+  \end{verbatim}
+  \texttt{mod.py} defines a \emph{module}. The \texttt{import} brings the 
+  name \texttt{mod} into \texttt{main.py}'s global namespace and we can access
+  its attributes there.
+\end{frame}
+  
+  %----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Imports}
+  
+  We can also do this
+  \begin{verbatim}
+  mod.py
+  ------------
+  num = 42
+  def foo():
+      return 'bar'
+  
+  main.py
+  ------------
+  from mod import num
+  
+  print(num)
+  \end{verbatim}
+  
+  In this case we just bring the name \texttt{num} into \texttt{main.py}'s namespace.
+
+\end{frame}
+
+  %----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Where does import find modules/packages?}
+  
+  When we use
+  \begin{verbatim}
+  import mod
+  \end{verbatim}
+  
+  The interpreter needs to find the module or package named \texttt{mod}. It searches
+  the following locations in order.
+  \begin{enumerate}
+    \item \texttt{sys.modules} - a cache of loaded modules.
+    \item The current working directory from which the program was invoked.
+    \item Any directories listed in the \texttt{PYTHONPATH} environment variable.
+    \item A list of installation-dependent directories. You can see these by inspecting \texttt{sys.path}.
+  \end{enumerate}
+  N.B.: These lists of locations can be modified at runtime, which is sometimes useful but also a security vulnerability if
+  you are running untrusted code.  
+
+\end{frame}
+
+ %----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Modules}
+  
+  As we've seen before, a Python \emph{module} is just a file with Python code in it.
+  It has it's own global namespace and anything defined at the global level may be imported.
+  
+  \begin{verbatim}
+  mod.py
+  ------------
+  num = 42
+  def foo():
+      msg = 'bar'
+      return msg
+  
+  \end{verbatim}
+  
+  So in this case we can \texttt{import mod} and get access to \texttt{mod.num} and \texttt{mod.foo()}.
+  We can't import \texttt{foo()}'s local variable, \texttt{msg}.
+
+\end{frame}
+
+ %----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Packages}
+  
+  We can bundle multiple modules together in a directory, and we call this a \emph{package}
+  
+  \begin{verbatim}
+     main.py
+     mypackage/
+       |
+       | mod1.py
+       | mod2.py
+  \end{verbatim}
+  
+  Then, in \texttt{main.py} we can use
+  
+  \begin{verbatim}
+  import mypackage.mod1
+  import mypackage.mod2
+  \end{verbatim}
+\end{frame}
+
+ %----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Packages}
+  
+  If \texttt{mypackage/} contains a file called \texttt{\_\_init\_\_.py}, anything
+  in that file can be imported with just \texttt{import mypackage}.
+  
+  \begin{verbatim}
+     main.py
+     mypackage/
+       | __init__.py
+       | mod1.py
+       | mod2.py
+  \end{verbatim}
+  
+  In \texttt{main.py}:
+  
+  \begin{verbatim}
+  import mypackage
+  import mypackage.mod1
+  import mypackage.mod2
+  \end{verbatim}
+  
+  Notice that we still have to explicitly import \texttt{mypackage.mod1} and \texttt{mypackage.mod2}.
+\end{frame}
+
+ %----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Further Reading}
+  
+  \begin{itemize}
+    \item \url{https://realpython.com/python-namespaces-scope/}
+    \item \url{https://realpython.com/python-import/}
+    \item \url{https://realpython.com/python-modules-packages/}
+  \end{itemize}  
+  
+\end{frame}
+\end{document}
