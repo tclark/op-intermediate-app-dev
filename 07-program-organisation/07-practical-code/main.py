@@ -1,7 +1,7 @@
 # Make the code below produce the desired output ONLY by adding 
 # import statements to this file, with ONE exception. You will find
 # that one of the imported names is not available in the module where
-# you expect to find it. Add that function to the module.
+# you expect to find it. Add that to the module.
 
 
 for sketch in mod.sketches:
