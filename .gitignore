@@ -26,3 +26,4 @@ frame
 *.vrb
 *.synctex.gz
 *.ipynb_checkpoints/
+*__pycache__/*

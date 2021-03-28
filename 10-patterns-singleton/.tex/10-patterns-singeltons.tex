@@ -1,0 +1,208 @@
+% Beamer slide template prepared by Tom Clark <tom.clark@op.ac.nz>
+% Otago Polytechnic
+% Dec 2012
+
+\documentclass[10pt]{beamer}
+\usetheme{Dunedin}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+
+\title{Introduction to Design Patterns \\ \& Singletons}
+
+\author[IN608]{Intermediate Application Development}
+\institute[Otago Polytechnic]{
+  Otago Polytechnic \\
+  Dunedin, New Zealand \\
+  Kaiako: Tom Clark
+}
+\date{}
+\begin{document}
+
+%----------- titlepage ----------------------------------------------%
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Introduction}
+  
+    Last time we talked about the development of a body of knowledge 
+    around Object Oriented Design that included SOLID Principles.
+    
+    \vspace{5mm}
+    Another major part of that project is the idea of \emph{Design Patterns}.
+    The principal reference on that topic is the 1995 book \emph{Design Patterns: elements of
+    reusable object-oriented software} by Gamma, et al. (Typically known of Gang of Four or GoF).
+    The book describes 23 patterns.
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{What is a Design Pattern?}
+  
+  A design pattern is not code. It's a description of how code (typically a class)
+  should function. It describes a broadly useful approach to solving a common problem.
+  
+  \vspace{5mm}
+  Patterns are generally language-independent, although their implementations are not.
+  They are typically language paradigm-dependent, so that OO patterns might not apply to 
+  other language types. 
+  
+  \vspace{5mm}
+  
+
+  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{So what?}
+  
+  The primary test of the utility of a particular design pattern is that it
+  \textbf{works}. It solves the problem it's intended to solve. When you're confronted 
+  by a problem that is probably pretty common, look to see if there is a well known pattern
+  that solves it.
+  
+  \vspace{5mm}
+  Conversely, it's good to know about common patterns so that you recognise common problems when you 
+  see them. Using a well-known pattern also helps other programmers understood what you are doing with your code.
+     
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Criticisms}
+  
+  Some criticsims of design patterns have been raised.
+  
+  \begin{itemize}
+    \item Design patterns merely point out shortcomings in particular languages.
+    \item Patterns lead to needless complexity in software design.
+  \end{itemize}
+
+  \end{frame}
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{The Singleton Pattern} 
+  
+  One well known pattern is the \emph{Singleton}.
+  
+  \vspace{5mm}
+  ``Ensure a class only has one instance and provide a global point of 
+  access to it.'' (Gof)
+  
+  \vspace{5mm}
+  Applications for a singleton include a central logging object, a configuration object,
+  or a cache.
+  
+  \vspace{5mm}
+  In Python, \texttt{None} is a singleton.
+
+  \end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Singleton: Classic Implementation}
+
+  \begin{verbatim}
+  class SoloGoF:
+    _instance = None  # This is a class variable
+
+    def __init__(self):
+        raise RuntimeError('Use instance() instead.')
+
+    @classmethod
+    def instance(cls):
+        if not cls._instance:
+            cls._instance = cls.__new__(cls)
+            # extra initialisation can happen here
+        return cls._instance
+    
+    solo = SoloGoF.instance()    
+
+  \end{verbatim}
+ \end{frame} 
+ %----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Singleton: A More Pythonic Implementation}
+
+  \begin{verbatim}
+  class SoloPy:
+    _instance = None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super(SoloPy, cls).__new__(cls)
+            # extra initialisation can happen here
+        return cls._instance
+
+    solo3 = SoloPy()
+  \end{verbatim}
+
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Programming Activity}
+  
+  \begin{enumerate}
+    \item Pull the course materials repo.
+    \item Create a new branch, \texttt{10-practical} in your practicals repo.
+    \item Add a subdirectory,  \texttt{10-practical} and copy \texttt{10-practical.ipynb} from the class materials into it.
+    \item Open a shell, cd to this directory, and run \texttt{jupyter notebook} to open the notebook. Complete the first questions.
+    \item We will discuss results in 20ish minutes.
+  \end{enumerate}      
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Criticisms of the Singleton}
+  If you Google for ``singelton antipattern'', you'll get a lot of results.
+  \begin{itemize}
+    \item It's too complicated. If you only want one instance, just create one instance.
+    \item Singletons are thinly disguised globals.
+    \item Singletons are inflexible. What if you really need two?
+    \item It's difficult to unit test singletons, since you can't control their instantiation.
+    \item It's difficult to test objects that depend on singletons, especially if they contain state.
+  \end{itemize}      
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Singletons Using Modules}
+  In Python, we have \emph{modules} that we can \emph{import}. Recall that a module's
+  code is only executed one time and the results are cached for subsequent imports. In effect,
+  modules are singletons.
+\end{frame} 
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Singleton: Module Implementation}
+
+  \begin{verbatim}
+  file: solomod.py
+  --------
+  class _SoloMod:
+    def __init__(self):
+        # do some init stuff, idk
+        pass
+  
+  solomod = _SoloMod()  
+  
+  # alternatively:    
+  class SoloMod:
+    def __new__(cls):
+        return solomod
+        
+  # in a client module:
+  import solomod
+  
+  solo = solomod.solomod
+     
+  \end{verbatim}
+\end{frame}
+
+\end{document}
