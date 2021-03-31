@@ -227,7 +227,8 @@
           msg = wrapped_fn(*args, **kwargs)
           return msg.upper()
       return wrapper
-      
+  
+  #usage:    
   @shouty
   def hello():
       return 'hello' 
@@ -254,7 +255,11 @@
               else:
                 return msg  
           return wrapper
-      return maybe
+      return maybe  
+   #usage:
+   @shouty_or_not(True)
+   def hello():
+       return 'hello'   
    \end{verbatim}
   
 \end{frame} 
@@ -282,7 +287,7 @@
   \begin{itemize}
     \item Python decorators have several uses, some of which don't satisfy this intent.
     \item They also have uses that \textbf{look} very different in their implementation than don't
-    look like the textbook pattern, but nonetheless \textbf{do} satify the intent.
+    look like the textbook pattern, but nonetheless \textbf{do} satisfy the intent.
     \item Regardless of this, Python decorators are handy and widely used.
   \end{itemize}
 \end{frame}
