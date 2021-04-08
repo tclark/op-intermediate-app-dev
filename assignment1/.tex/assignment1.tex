@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{inconsolata}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage[margin = 2.25cm]{geometry}
+
+
+
+
+\begin{document}
+
+\title{Assignment 1\\IN608: Intermediate Application Development Concepts \\Semester One, 2021}
+\date{}
+\maketitle
+
+\section*{Directions}
+Below you will find a list of programming problems. You are not expected to do all of them, but instead to choose a subset and complete those. Each problem is worth some number of marks, indicated at the start of the problem. You should probably attempt to complete a set of questions worth about 100 marks. You can't get more than 100 marks on the assignment, but you may want to attempt more than 100 marks worth of problems to maximise your score.
+
+
+Start your work on this assignment by visiting this GitHub Classroom link: \url{https://classroom.github.com/a/rfDZD0UC}. After creating your assignment repository, clone it to your workstation.  Create a ``\texttt{working}'' branch off the main branch. For each problem, create a subdirectory named for the problem number/name (e.g.: \texttt{01-stacks}) and put your code in the appropriate subdirectory. When you are ready to submit your work for marking, issue a pull request, selecting \texttt{tclark} as the reviewer. Note that you get one attempt to submit your work. However, if you make a mistake in your submission, like forgetting to include some files, just let the lecturer know.
+
+
+Your submission may require some additional libraries in order to run. If this is the case, include either a \texttt{Pipfile/Pipfile.lock} or a \texttt{requirements.txt} file at the top level of your repository. Omitting this will result in a deduction of 5 marks on the assignment. The \texttt{Pipfile} form is recommended.
+
+This assignment is work 30\% of your total mark in this paper. Each problem will be marked on 
+\begin{itemize}
+  \item Correctly solving the problem;
+  \item Coding style and organisation;
+  \item Robust exception handling;
+  \item Adherence to SOLID principles;
+  \item Application of appropriate types, patterns, and other techniques.
+\end{itemize}  
+
+Assignment submissions are due on 5:00 PM on the 14 of May.
+
+\section*{Problems}
+
+1. Stacks (15 marks): In Python it's pretty natural to implement a stack using a list to store its data. Another common method is to use a \emph{linked list}. A linked list is made up of \texttt{Node} objects with two fields. One field holds the node data and the other is a reference to the next \texttt{Node} in the list. These \texttt{Node} values are chained together to form a list. For the last item on the list, the next node value is \texttt{None}.
+
+Write a \texttt{Stack} class that uses a linked list for its date storage. Implement \texttt{push}, \texttt{pop}, \texttt{peek}, and \texttt{is\_empty} methods. Include a \texttt{main} section in your file that demonstrates the stack's operations.
+
+\vspace{3mm}
+2. Postfix calculator (20 marks): Typical calculators use \texttt{infix} notation. To enter a calculation, you typically enter the first operand, then the operator, then the second operand. For example, to add 1 and 2 we enter a ``1'', then a ``+'', then a ``2''. But there was a time when \emph{postfix} calculators were popular. With such a calculator you enter the first operand, then the second operand, and finally the operation. So, $1 + 2$ is entered ``1'', then ``2'', then ``+''. There is an advantage to this when entering a recursive expression like $3 + (16 / 5)$. The first operand, ``3'' is easy enough, but the second operand is an expression of its own. With a postfix calculator you would enter ``3'', then ``16'', ``5'', ``/'', and finally ``+''.
+
+The most straightforward way to implement a postfix calculator is using a stack. Write a postfix calculator program that takes user input via \texttt{stdin} and carries out its operations using a stack. Your calculator should implement addition, subtraction, multiplication, and division.
+
+\vspace{3mm}
+3. Supermarket queues (25 marks): For this problem you will use software queues to model supermarket queues. First, implement shopper objects that include a \texttt{checkout\_time} attribute that is randomly assigned a value between 60 and 500 seconds. Generate 1000 shopper objects and insert them into 8 queues that represent supermarket checkouts.
+
+The simulation logic is just a loop. Each pass through the loop represents one second of simulated time. Each pass through the loop:
+\begin{itemize}
+  \item Decrement the checkout time for the shopper at the front of each queue. If a shopper's time reaches zero, remove that shopper from their queue.
+  \item Every tenth pass through the loop, generate a new shopper and add them to a queue, until a total of 1000 shoppers is reached.
+\end{itemize}
+Keep track of how many seconds (loop iterations) are required to complete the run.  
+
+Run four simulations with the following variations:
+\begin{enumerate}
+  \item A new shopper selects a queue at random.
+  \item A new shopper selects the shortest (based on number of shoppers) queue.
+  \item Like (1), except two of the eight queues are ``express queues'' that are only available to shoppers having \texttt{checkout\_time} $\leq$ 90.
+  \item Like (2), except two of the eight queues are ``express queues'' that are only available to shoppers having \texttt{checkout\_time} $\leq$ 90.
+\end{enumerate}
+
+\vspace{3mm}
+4. Decorators (15 marks): Write  a function decorator that wraps a function and logs details about the execution to a file. In particular, every time the function is called, write a log message including:
+  \begin{itemize}
+    \item a timestamp;
+    \item the name of the function called;
+    \item the arguments supplied to the function;
+    \item the value returned;
+    \item any exceptions raised.
+  \end{itemize}
+  
+Your decorator should pass the return value of the decorated function back to the caller. Any exceptions raised \textbf{must} be propagated upstream. Include a \texttt{main} section that demonstrates the use of your decorator.
+
+\vspace{3mm}    
+5. Iterators (20 marks): We know that Python lists are \emph{Iterable}, i.e., they produce \emph{Iterators}. In problem (1) we brought up the idea of a linked list. Python lists could be implemented using linked lists, but they're not. For this problem, write a \texttt{LinkedList} class that implements a list using a linked list for its data storage. Your class should 
+  \begin{enumerate}
+      \item implement an \texttt{append} method,
+      \item implement a \texttt{pop} method,
+      \item report its length when queried with the \texttt{len()} function.
+      \item implement the Iterator pattern so it can be used in a \texttt{for} loop.
+  \end{enumerate}
+  
+  Include a \texttt{main} section in your file that demonstrates the \texttt{LinkedList}'s methods. 
+  
+  Note that there is a decision to be made here about which end of the list is which.
+  
+Optional (10 marks): Add support for accessing list items by index, e.g., \texttt{linkedlist[3]}. To do this your class needs to implement Python's \emph{sequence protocol}.  
+
+\vspace{3mm}  
+6. Observers (25 marks): In the game of Bingo, there is a \emph{caller} who draws and calls out letter-number combinations and there are \emph{players} who listen to the caller and mark any cells on their cards that match the called value. When a player's card has a row, column, or major diagonal
+of filled cells, that player wins. (See \url{http://www.ildado.com/bingo_rules.html} for full American Bingo rules.)  
+
+For this problem, implement a \texttt{Caller} class and a \texttt{Player} class. The \texttt{Caller} should randomly generate and ``call'' letter-number combinations. The \texttt{Player} should randomly generate a card and then track which card values have been called until it wins. Provide a \texttt{main} section in your code that plays a simulated Bingo game with multiple players.
+
+\vspace{3mm}     
+7. Factories: (20 Marks): Given a \texttt{Book} class like the following:
+\begin{verbatim}
+          Book:
+              title: string
+              authors: list of strings
+              ISBN: string
+              publisher: string
+              copyright: date
+              categories: list of strings
+\end{verbatim}
+
+Write a program that lets the user enter information about multiple books. When the user chooses to save the entered information they should be able to choose from JSON, YAML, and XML formats. Write the the entered information to a text file in the chosen format. Sort the books in the output file by title.
+
+Optional (10 marks): Allow the user to chose to sort the output by title, authors, or copyright date.
+
+\section*{Resources}
+For coding style guidelines, refer to PEP 8 (\url{https://pep8.org/}. You may also find Pylint (\url{https://pylint.org/}) useful. Pylint actually 
+does far more than just style checking.
+
+I \emph{strongly} recommend that you use Pipenv (\url{https://pipenv.pypa.io/en/latest/}) to manage your project environment, especially if you need to import any extra modules outside of the standard library. Real Python has a good article about Pipenv at \url{https://realpython.com/pipenv-guide/}.
+
+         
+           
+\end{document}
