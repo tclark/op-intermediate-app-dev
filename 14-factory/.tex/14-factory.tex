@@ -277,15 +277,17 @@
   \frametitle{Using the Factory}
 
   
-  \begin{verbatim}
+  \begin{verbatim}  
+  def give_a_pet_to(person, factory):
+      pet = {'animal': factory.get_animal(),
+             'food': factory.get_pet_food(),
+             'toy': factory.get_pet_toy()
+            }
+      person.add_pet(pet)
   
   factory = DogFactory()
-  
   # I have a dog named Star
-  star = {'animal': factory.get_animal(),
-          'food': factory.get_pet_food(),
-          'toy': factory.get_pet_toy()
-          } 
+  give_a_pet_to(tom, factory)         
   
   \end{verbatim}
   
