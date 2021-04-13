@@ -1,0 +1,315 @@
+% Beamer slide template prepared by Tom Clark <tom.clark@op.ac.nz>
+% Otago Polytechnic
+% Dec 2012
+
+\documentclass[10pt]{beamer}
+\usetheme{Dunedin}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+
+\title{The Factory Method Pattern \\ and \\ Abstract Factory Pattern}
+
+\author[IN608]{Intermediate Application Development}
+\institute[Otago Polytechnic]{
+  Otago Polytechnic \\
+  Dunedin, New Zealand \\
+  Kaiako: Tom Clark
+}
+\date{}
+\begin{document}
+
+%----------- titlepage ----------------------------------------------%
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Introduction: Factory Method}
+  
+  I always used to hate this pattern. Most descriptions I've seen for it are
+  confusing. The UML diagram is confusing. It always seemed to me like it was 
+  making things \emph{more} complicated.
+  
+  \vspace{5mm}
+  ``Define an interface for creating an object, but let subclasses decide which class
+  to instantiate. Factory Method lets a class defer instantiation to subclasses.'' \\
+  (\emph{GoF})
+  
+  That didn't really help. What we need is a good example.
+
+  
+  \end{frame}
+ %----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Our Problem}
+  
+  I work on games that are available around the world. Naturally, we
+  want to be able to present those games to players in the preferred 
+  languages. We don't know what language we're going to use until 
+  runtime. Clearly we need some sort of translator class.  
+  \end{frame}
+  
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Let's Do it Wrong}
+
+  \begin{verbatim}
+  class Translator:
+      def localise(self, lang, expression):
+          if lang == 'en':
+              # load up English language stuff
+              # look up expression
+              # return English version
+          elif lang == 'es':
+              # load up Spanish language stuff
+              # look up expression
+              # return Spanish version
+          ...
+       
+  \end{verbatim}
+  You see where this is going. What's wrong with this?
+ \end{frame} 
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{What's Wrong?}
+
+  \begin{itemize}
+    \item What's the process for adding a language? (Open-closed)
+    \item What if we change the ``\texttt{load up X language stuff}'' process? (Single responsibility)
+  \end{itemize}
+ \end{frame} 
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Improved Version}
+
+  
+  \begin{Verbatim}[commandchars=\\\{\}]
+  class Translator:
+      def localise(self, lang, expression):
+          translator = \codeHighlight{self.get_translator(lang)}
+          return translator.interpret(expression)
+          
+  # using the Translator
+  weather = 'WEATHER.CLOUDY'
+  localiser = Translator()
+  print(localiser.localise(player.preferred_language, weather))        
+
+  \end{Verbatim}
+ \end{frame} 
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Get Translator Method}
+
+  How do we implement \texttt{get\_translator()}?
+
+  \begin{verbatim}
+  
+      def get_translator(self, lang):
+          if lang == 'en':
+              return English()
+          elif lang == 'es':
+              return Spanish() 
+          ...                  
+  \end{verbatim}
+  Not bad, but it could be better.
+ \end{frame} 
+ 
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{A better process}
+  
+  \begin{itemize}
+    \item Set up directories. like \texttt{localisations/en} and \texttt{localisations/es}.
+    \item Each directory contains files, like \texttt{weather}, with tables to look up expressions and their localised values.
+    \item Now \texttt{get\_translator()} looks for a directory and loads up its files.
+    \item Also, switching from one strategy to the other is just a matter of changing the \texttt{get\_translator()} method.
+  \end{itemize}      
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Taking it further}
+  
+  Suppose my employer gets bought out by Disney. Our new corporate overlords
+  insist that every game include a Jar Jar Binks option where characters speak
+  with Jar Jar's accent thing in whatever language.
+  
+  \vspace{5mm}
+  Suppose also that we come up with an algorithm to take test in an arbitrary
+  language and transform it into the Jar Jar Binks accent.    
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Subclassing Translator}
+
+  
+  \begin{verbatim}
+  class JarJarTranslator(Translator):
+      def get_translator(self, lang):
+          # This would load up the language info and
+          # somehow JarJar-ise it? I never said it was
+          # a good idea.
+          
+  \end{verbatim}
+  Notice that we don't have to override the \texttt{localise()} method. We
+  just change the factory method \texttt{get\_translator()}.
+ \end{frame}  
+ 
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Programming Activity}
+  
+  \begin{enumerate}
+    \item Pull the course materials repo.
+    \item Create a new branch, \texttt{14-practical} in your practicals repo.
+    \item Add a subdirectory,  \texttt{14-practical} and copy \texttt{14-practical.ipynb} from the class materials into it.
+    \item Open a shell, cd to this directory, and run \texttt{jupyter notebook} to open the notebook. Complete the first two questions.
+    \item We will discuss results in 20ish minutes.
+  \end{enumerate}      
+\end{frame}
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Introduction: Abstract Factory}
+  
+  The Abstract Factory may be thought of as related to the Factory Method and 
+  is sort of is, but it's not a very strong relationship. They are both \emph{Creational
+  Patterns}, but that may be as far as it goes.
+    
+  \vspace{5mm}
+  ``Provide an interface for creating \textbf{families} of related or dependent objects without 
+  specifying their concrete classes'' \\
+  (\emph{GoF})
+  
+  \vspace{5mm}
+  The bit about families of objects is the key. With the Factory Method we wanted one object and we weren't 
+  too particular about its concrete type. With the Abstract Factory we want families of related objects.
+
+  
+  \end{frame}
+  
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Some Abstract Classes}
+
+  
+  \begin{verbatim}
+  from abc import ABC, abstractmethod
+  
+  class PetFactory(ABC):
+      
+      @abstractmethod
+      def get_animal(self):
+          pass
+        
+      @abstractmethod  
+      def get_pet_food(self):
+          pass
+      
+      @abstractmethod 
+      def get_pet_toy(self):
+          pass        
+  
+  \end{verbatim}
+\end{frame}  
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{More Classes}
+
+  
+  \begin{verbatim}
+  
+  class Animal(ABC):
+      pass
+      
+  class Dog(Animal):
+      pass    
+      
+  class PetFood(ABC):
+      pass
+      
+  class DogRoll(PetFood):
+      pass    
+      
+  class PetToy(ABC):
+      pass
+      
+  class Ball(PetToy):
+      pass           
+      
+  \end{verbatim}
+\end{frame}  
+  
+  
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{And Now a Concrete Factory}
+
+  
+  \begin{verbatim}
+  
+  class DogFactory(PetFactory):
+  
+      def get_animal(self):
+          return Dog()
+          
+      def get_pet_food(self):
+          return DogRoll()
+          
+      def get_pet_toy(self):
+          return Ball()          
+
+  
+  \end{verbatim}
+\end{frame} 
+  
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Using the Factory}
+
+  
+  \begin{verbatim}
+  
+  factory = DogFactory()
+  
+  # I have a dog named Star
+  star = {'animal': factory.get_animal(),
+          'food': factory.get_pet_food(),
+          'toy': factory.get_pet_toy()
+          } 
+  
+  \end{verbatim}
+  
+  I also have a cat named Lola. Can you see how we would implement cats?
+\end{frame} 
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Some Closing Notes}
+  
+  In Python and similar dynamic languages we might not bother with the abstract classes. They
+  make the design a just little more clear.
+  
+  \vspace{5mm}
+  Similarly, both of these patterns are seen less often in a language like Python than in some other 
+  languages, in particular because classes and functions are first-class values and this removes some 
+  of the need for these patterns.
+  
+  \vspace{5mm}
+  Finally, a technique called \emph{dependency injection} can serve some of the same purposes, especially in the case of the 
+  Factory Method. We won't cover dependency injection in this paper, however.
+
+  
+  \end{frame}
+  
+
+\end{document}
