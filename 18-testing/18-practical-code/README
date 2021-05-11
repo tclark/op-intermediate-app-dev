@@ -1,0 +1,9 @@
+You can run your tests with the command
+
+  python -m unittest tests/test_practical.py
+
+or 
+
+  python -m unittest tests/test_practical.py -v  (for verbose)
+
+from this directory
