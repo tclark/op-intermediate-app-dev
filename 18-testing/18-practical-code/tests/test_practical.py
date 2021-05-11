@@ -1,6 +1,10 @@
 import unittest
-import unittest.mock as mock
+from unittest.mock import patch
 
-import practical.example
+import practical.practical18
+
+
+class TestPractical18(unittest.TestCase):
+    pass
 
 
