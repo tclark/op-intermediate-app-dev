@@ -9,7 +9,7 @@
 
 \newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
 
-\title{Object Serialisation}
+\title{Testing}
 
 \author[IN608]{Intermediate Application Development}
 \institute[Otago Polytechnic]{
@@ -29,86 +29,51 @@
 \begin{frame}
   \frametitle{Introduction}
   
-  Objects are great, but sometimes we need to move them around. Maybe we 
-  want to save an object to a file so we can read it in during a later session.
-  Perhaps we want to send the object over a network to a remote process. 
+  Testing is important, but traditionally programmers aren't good at it. Modern
+  programming practice puts more responsibility for testing, however. Thankfully
+  (and probably as a result of this), tooling to automate tests is available.
   
   \vspace{5mm}
-  To do this, we need to convert the object into a \emph{serial} format,
-  like a sequence of bytes or a string. We also need a way to convert the object from 
-  its serial format into a functioning object instance.
+  Types of tests
+  \begin{itemize}
+    \item Unit tests
+    \item Integration tests
+    \item Acceptance tests
+  \end{itemize}
+  We will focus on unit tests, but much of this can also be applied to 
+  integration tests. 
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 \begin{frame}
-  \frametitle{Approaches to Serialisation}
+  \frametitle{Automated testing}
   
-  We will look at two ways to serialise Python objects.
+  The only sensible way to handle unit tests is to automate them. This
   
   \begin{itemize}
-    \item Binary format: Python's \texttt{pickle} module
-    \item String format: Python's \texttt{json} module and related tooling
+    \item ensures that tests are performed;
+    \item makes tests consistent;
+    \item guides development;
+    \item provides de facto documentation.
   \end{itemize}
     
   \end{frame}
 
 %----------- slide --------------------------------------------------%
 \begin{frame}
-  \frametitle{Pickle}
-  
-  Python's standard \texttt{pickle} module saves Python built-in types and
-  some custom objects in a binary format.
-  
-  \begin{itemize}
-    \item Pros:
-      \begin{itemize}
-        \item Easy to use
-        \item Efficient
-      \end{itemize}  
-    \item Cons:
-      \begin{itemize}
-        \item Python-specific
-        \item Can't save or load some values 
-      \end{itemize}  
-  \end{itemize}
-  
-  Reference: \url{https://docs.python.org/3/library/pickle.html}
-    
-  \end{frame}
-
-%----------- slide --------------------------------------------------%
-\begin{frame}
-  \frametitle{Pickle Versions}
-  
-  There are currently six versions of the \texttt{pickle} protocol
-  
-  \begin{itemize}
-    \item Versions 0 -2: Too old, don't care
-    \item Version 3: introduced in Python 3.0
-    \item Version 4: introduced in Python 3.4
-    \item Version 5: introduced in Python 3.9
-  \end{itemize}
-  
-  New versions have improved features, but data pickled with a high version
-  can't be unpickled in older interpreters that don't support the protocol version.
-  You can specify the protocol version used when pickling.
-    
-  \end{frame}
-
-%----------- slide --------------------------------------------------%
-\begin{frame}
-  \frametitle{Basic Pickle Functions}
+  \frametitle{Components of Automated Tests}
   
   
   
   \begin{itemize}
-    \item \texttt{pickle.dump()}: Saves data to a file
-    \item \texttt{pickle.dumps()}: Returns a byte string of pickled data
-    \item \texttt{pickle.load()}: Loads from a file
-    \item \texttt{pickle.loads()}: Loads from a byte string
+    \item Test cases
+    \item Test fixtures
+    \item Test suites
+    \item Test runners
   \end{itemize}
   
-  
+  We will look at Python's \texttt{unittest} module and see how it provides these.
+  There are other options, but \texttt{unittest} is provided in the standard library. 
     
   \end{frame}
 
@@ -118,213 +83,236 @@
   \frametitle{Example}
   
   \begin{verbatim}
-    import pickle
     
-    class PickleMe:
-        def __init__(self, data):
-            self.data = data
+    class Multiplier:
+        def __init__(self, factor):
+            self.factor = factor
+            
+        def multiply(self, num):
+            return self.factor * num    
     
-    example = PickleMe(42)
-    pickle.dump(example, open('save.p', 'wb'))
+   \end{verbatim} 
+    Let's test this.
+\end{frame}
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Example}
+  
+  
+  \begin{verbatim}
+    import unittest
     
-    example = None
-    example = pickle.load(open('save.p', 'rb'))
-    print(example.data) # prints 42       
-    
+    class TestMultiplier(unittest.TestCase):
+        def setUp(self):
+            self.m = Multiplier(2)
+                        
+        def test_multiply(self):
+            result = self.m.multiply(2)
+            self.assertIsInstance(result, (int, float, complex))    
+            self.assertEqual(result, 4)
    \end{verbatim} 
     
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-\begin{frame}
-  \frametitle{Security Concerns}
+\begin{frame}[fragile]
+  \frametitle{Testing Exceptions}
   
-  Pickled data is vulnerable to be altered. Don't load untrusted pickled data.
-  If you need to send and receive pickled data over an untrusted network use
-  something like the \texttt{hmac} module to cryptographically authenticate the data.
+  
+  \begin{verbatim}
+    import unittest
     
-  \end{frame}
+    class TestMultiplier(unittest.TestCase):
+        ...
+                                
+        def test_multiply_raises(self):
+            with self.assertRaises(TypeError):
+                self.m.multiply(2)
+ 
+   \end{verbatim} 
+    
+\end{frame}
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Skipping Tests}
   
+  
+  Sometimes you want to skip a test, or you expect a
+  test to fail. You can decorate a test with one of these.
+  \begin{verbatim}
+  
+  @unittest.skip('message')
+  
+  @unittest.skipIf(condition, 'message')
+  
+  @unittest.expectedFailure
+  
+  \end{verbatim} 
+    
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Skipping Tests}
+  
+  
+  Sometimes you want to skip a test, or you expect a
+  test to fail. You can decorate a test with one of these.
+  \begin{verbatim}
+  
+  @unittest.skip('message')
+  
+  @unittest.skipIf(condition, 'message')
+  
+  @unittest.expectedFailure
+  
+  \end{verbatim} 
+    
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Organising Tests}
+  
+  
+  There is more than one approach to this, but here is 
+  a good overall strategy.
+  \begin{verbatim}
+  
+  project_root/
+      |
+      |- multiplier.py
+      | ...
+      |- tests/
+          |
+          |- test_multiplier.py
+          | ...
+  
+  \end{verbatim} 
+    
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Organising Tests}
+  
+  
+  Inside \texttt{test\_multiplier.py}, we have
+  \begin{verbatim}
+  import unittest
+  from multiplier import Multiplier
+  
+  class TestMultiplier(unittest.TestCase):
+      ...
+  \end{verbatim} 
+    
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Running Tests}
+  
+  
+  From our project root directory, we can use commands like
+  
+  \begin{verbatim}
+  python -m unittest tests/test_multiplier -v
+  python -m unittest discover
+  \end{verbatim} 
+    
+\end{frame}
+
 %----------- slide --------------------------------------------------%
 \begin{frame}
   \frametitle{Programming Activity}
   
   \begin{enumerate}
     \item Pull the course materials repo.
-    \item Create a new branch, \texttt{17-practical} in your practicals repo.
-    \item Add a subdirectory,  \texttt{17-practical} and copy \texttt{17-practical.ipynb} from the class materials into it.
-    \item Open a shell, cd to this directory, and run \texttt{jupyter notebook} to open the notebook. 
+    \item Create a new branch, \texttt{18-practical} in your practicals repo.
+    \item Copy the subdirectory, \texttt{18-practical} from the class materials into your repo.
+    \item See the README for directions.
     \item We will discuss results in 20ish minutes.
   \end{enumerate}      
 \end{frame}
   
 
-%----------- slide --------------------------------------------------%
-\begin{frame}
-  \frametitle{Serialising with JSON}
-  
-  Javascript Object Notation (JSON) is a common data serialisation format.
-  Python's \texttt{json} module has functions corresponding to those we saw in 
-  \texttt{pickle}.
-  
-  \begin{itemize}
-    \item \texttt{json.dump()}: Saves data to a file
-    \item \texttt{json.dumps()}: Returns a JSON-formatted string of data
-    \item \texttt{json.load()}: Loads from a file
-    \item \texttt{json.loads()}: Loads from a JSON string
-  \end{itemize}
-
-   Reference: \url{https://docs.python.org/3/library/json.html}
-
-  
-\end{frame}
-%----------- slide --------------------------------------------------%
- \begin{frame}
-  \frametitle{Pros and Cons}
-  
-  \begin{itemize}
-    \item Pros:
-      \begin{itemize}
-        \item Not Python-dependent
-        \item Easy
-        \item Extensible
-      \end{itemize}  
-    \item Cons:
-      \begin{itemize}
-        \item Can't represent some Python values without additional code
-        \item Can't represent custom classes without additional code
-      \end{itemize}  
-  \end{itemize}
-\end{frame}
-%----------- slide --------------------------------------------------%
-\begin{frame}
-  \frametitle{Values that serialise to JSON}
-  
-  \begin{itemize}
-    \item integers
-    \item floats
-    \item strings
-    \item booleans
-    \item list
-    \item dictionaries\footnote{Sort of. JSON dictionaries have to have string keys.}
-    \item \texttt{None}
-   \end{itemize}
-\end{frame} 
 
 %----------- slide --------------------------------------------------%
 \begin{frame}[fragile]
-  \frametitle{Example}
+  \frametitle{Mocking}
   
+  Consider this class.
   \begin{verbatim}
-    import json
-    
-    pets = {'cat': 'Lola',
-            'dog': 'Star',
-            'fish': 'My fish don't have names.'
-           }    
-           
-    json_pets = json.dumps(pets)
-    
-    restored_pets = json.loads(json_pets)       
-    
-   \end{verbatim} 
-    
-\end{frame}
-
-%----------- slide --------------------------------------------------%
-\begin{frame}[fragile]
-  \frametitle{Extending JSONEncoder}
   
-  If we want to handle a type not supported by default, we 
-  can extend the default encoder.
-  \begin{verbatim}
-    import json
-    
-    z = 1 + 2j  # complex number
-    class ComplexEncoder(json.JSONEncoder):
-        def default(self, obj):
-            if isinstance(obj, complex):
-                return [obj.real, obj.imag] 
-            return json.JSONEncoder.default(self, obj)
-            
-    json_z = json.dumps(z, cls=ComplexEncoder)               
-    
-    
-   \end{verbatim} 
-    
-\end{frame}
-
-%----------- slide --------------------------------------------------%
-\begin{frame}[fragile]
-  \frametitle{Adding Serialisation to a Class}
-  
-  Since the `json` module can't handle custom classes, a typical approach
-  is to add serialisation methods to the class.
-  \begin{verbatim}
-  class Foo:
-      def __init__(self, a, b):
-          self.a = a
-          self.b = b
-          
-      def dumps(self):
-          return json.dumps({'a': self.a, 'b': self.b})
-          
-      @classmethod
-      def loads(cls, js):
-          data = json.loads(js)
-          return cls(data['a'], data['b'])         
-                     
+  class UserManager:
+      def get_user_name(self, user_id):
+          user  = db.get_user(user_id)
+          return user.name
+                      
   \end{verbatim} 
+  
+  This class is hard to test since it relies on an external resource, \texttt{db}.
    
-  We basically just manually make our objects handle their own serialisation. 
+\end{frame}
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Mocking}
+  
+  \texttt{unittest.mock} helps with this problem.
+  
+  \begin{verbatim}
+  from unittest.mock import Mock
+  
+  testuser = Mock()
+  testuser.name = 'Joe Bloggs'
+  db = Mock()
+  db.get_user.return_value = testuser
+  
+  class UserManager:
+      def get_user_name(self, user_id):
+          user = db.get_user(user_id)
+          return user.name
+                      
+  \end{verbatim} 
+  
+  \texttt{Mock()} provides all-purpose stand in objects for use in testing and development.
+   
 \end{frame}
 
 %----------- slide --------------------------------------------------%
 \begin{frame}[fragile]
-  \frametitle{More Robust Serialisation}
+  \frametitle{Mocking in Unit Tests}
   
-  The pip-installable module \texttt{marshmallow} provides 
-  a more robust approach to JSON (and other) serialisation.
+  We can also use mocks in unit tests
+  
   \begin{verbatim}
-  from marshmallow import Schema, fields
-  
-  class Foo:
-      def __init__(self, a, b):
-          self.a = a
-          self.b = b
-          
-  class FooSchema(Schema):
-      a = fields.Str(required=True)
-      b = fields.Integer()
+  from unittest.mock import patch
+  import user_manager
+  class TestUserManager:
       
-      @post_load
-      def make_foo(self, data, **kwargs):
-          return Foo(**data)         
-                     
+      ...
+      
+      @patch('user_manager.db')
+      def test_get_user_name(self, mock_db):
+          testuser = Mock()
+          testuser.name = 'Joe Bloggs'
+          assertEqual(self.usermanager.get_user_name(1),
+              'Joe Bloggs')                     
   \end{verbatim} 
-   
+  
+  The mock objects are used in the test without any modification to the \texttt{UserManager} code.
    
 \end{frame}
 
 %----------- slide --------------------------------------------------%
-\begin{frame}[fragile]
-  \frametitle{More Robust Serialisation}
+\begin{frame}
+  \frametitle{References}
   
-  \begin{verbatim}
-  
-  foo = Foo('hello', 6)
-  foo_schema = FooSchema()
-  serialised = foo_schema.dump(foo)  # returns a dict, not json
-  deserialised = foo_schema.load(serialised)
-  
-          
-                     
-  \end{verbatim} 
-  
-   Reference: \url{https://marshmallow.readthedocs.io/en/stable/index.html}
-   
-   
+  \begin{itemize}
+    \item unittest: \url{https://docs.python.org/3/library/unittest.html}
+    \item unittest.mock: \url{https://docs.python.org/3/library/unittest.mock.html}
+    \item RealPython article about mock: \url{https://realpython.com/python-mock-library/}
+  \end{itemize}      
 \end{frame}
-
 
 \end{document}
