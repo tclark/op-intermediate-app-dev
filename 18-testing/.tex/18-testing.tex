@@ -296,6 +296,7 @@
       def test_get_user_name(self, mock_db):
           testuser = Mock()
           testuser.name = 'Joe Bloggs'
+          mock_db.get_user.return_value = testuser
           assertEqual(self.usermanager.get_user_name(1),
               'Joe Bloggs')                     
   \end{verbatim} 
