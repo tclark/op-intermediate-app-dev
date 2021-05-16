@@ -1,4 +1,4 @@
-# Practical  19: Testing
+# Practical  19: Network sockets
 
 
 ##  Echo client and server
