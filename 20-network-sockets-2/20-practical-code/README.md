@@ -1,36 +1,50 @@
-# Practical  19: Network sockets
+# Practical  20: More sockets
 
 
 ##  Echo client and server
-The network programming equivalent of "Hello, world" is an echo server. The
-server just receives a text message from the client and then echoes the message
-back to it.
+In today's exercise we will extend the echo client and servers that we wrote 
+for practical 19. You need to have completed at least questions 1 and 2 from 
+practical 19 before starting today's questions.
 
-1. **Echo client**: The client isn't much different from the example client code we just saw. Write a client that
-    1. connects to a server on the localhost;
-    2. gets a message from user input;
-    3. sends the message to the server;
-    4. receives the echoed response from the server;
-    5. prints the response;
-    6. closes the connection.
+1. **Echo client**: Extend your echo client to use `send()` and `receive()` 
+functions that add and process our basic two-byte length header, repectively.
 
-2. **Echo server**: The echo server needs just a bit more capability than the example code. Write a server that
-    1. sets up a socket listening on the localhost interface (IPv4);
-    2. accepts the incoming client connection;
-    3. in a loop, receives data from the client and sends the same data back;
-    4. exits the loop when it receives empty data (this indicates that the client closed the connection);
-    5. closes its connection.
-
-This server can be left running while you run the client multiple times.
-
-3. Experiment with your client and server. What happens if you run two clients at once? What happens if you send a very long message? (Try using a smaller buffer size than the 1024 bytes we used in the example). 
-
+2. **Echo server**: Extend your echo server to use `send()` and `receive()` in 
+the same way. You should be able to write those functions so that they can be
+used in both the client and the server.
 
 **Stop here**. We will discuss solutions in class.
 
 ## Homework
+The homework problems just continue in the same vein.
 
-4. Write a more capable version of your echo server using selectors to service concurrent requests. Include a function to establish incoming client connections and one or more functions to handle reading from and writing to established client connections.
+3. Extend your echo client and server from the first two question to use
+full application headers. At this point you will need to write a full 
+`Message` class. To be clear, when you submit you only need to provide this
+version, not the versions from the above questions.
 
-We will pick up from here in the next class session, so you should try to complete these before the next class.
+4. Finally, extend your multi-client echo server to use our application headers.
+To do this you will need to build up the `Message` class to be more of an event 
+handler. Here's an outline of how this could work:
+
+    - We set up our listening socket and register it with the 
+    selector, just like before.
+
+    - When a connection is initiated by a client, accept the connection and 
+    register the client socket with the selector. Set the `data` argument to 
+    be a new `Message` object.
+
+    - When a read event happens, the `Message` object can process the incoming 
+    client request. Then, modify the selector event to look for the write event.
+
+    - When the write event fires, your `Message` prepares and writes the response.
+    Then your work is done, so deregister the socket from the selector and close 
+    the socket.
+
+For all this to work, your `Message` class needs to maintain a bunch of fields so
+it can access the socket and selector, as well as tracking its own state. The 
+Real Python article referenced in the last class actually has an example of all this, 
+but it's a bit hard to follow. Honestly, it's probably easier to think it 
+through yourself. Just take it one step at a time.                       
+
 
