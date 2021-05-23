@@ -1,0 +1,208 @@
+\documentclass{article}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{inconsolata}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage[margin = 2.25cm]{geometry}
+
+
+
+
+\begin{document}
+
+\title{Assignment 2\\IN608: Intermediate Application Development Concepts \\Semester One, 2021}
+\date{}
+\maketitle
+
+\section*{Directions}
+Your assignment is to write a chat server that implements an instant system. Details on the requirements for the server are describe below. An example
+client for your server is provided in the \texttt{example\_client} subdirectory of the \texttt{assignment2} directory.
+
+Start your work on this assignment by visiting this GitHub Classroom link: \url{https://classroom.github.com/a/aFVjykKU}. After creating your assignment repository, clone it to your workstation.  Create a ``\texttt{working}'' branch off the main branch.  You should make multiple commits to your working branch as you reach various milestones in your work. When you are ready to submit your work for marking, issue a pull request back to the main branch, selecting \texttt{tclark} as the reviewer. Note that you get one attempt to submit your work. However, if you make a mistake in your submission, like forgetting to include some files, just let the lecturer know.
+
+
+Your submission may require some additional libraries in order to run. If this is the case, include either a \texttt{Pipfile/Pipfile.lock} or a \texttt{requirements.txt} file at the top level of your repository. Omitting this will result in a deduction of 5 marks on the assignment. The \texttt{Pipfile} form is recommended.
+
+This assignment is work 50\% of your total mark in this paper.
+
+
+Assignment submissions are due on 5:00 PM on the 23rd of June.
+
+\section{Project Overview}
+
+On a high level, your server shall
+    \begin{enumerate}
+      \item listen for incoming client TCP connections on port 65432 and accept them;
+      \item receive and process client requests, maintaining client state as necessary;
+      \item send responses to client requests;
+      \item handle error conditions gracefully.
+    \end{enumerate}   
+    
+\section{Message format}
+Messages to and from the server have the following format:
+
+\textbf{Preheader} A two byte unsigned integer indicating the length, in bytes, of the header.
+
+\textbf{Header} A json-formatted utf-8 string, like the following:
+\begin{verbatim}
+    { "Content-type": "application/json",
+      "Content-encoding": "utf-8",
+      "Content-length": 42
+    }
+\end{verbatim}
+
+Your server must support the \texttt{application/json} type and the \texttt{utf-8} encoding. If a header 
+indicates an unsupported type or encoding, return an error. The \texttt{Content-length} field indicates the
+length, in bytes, of the message body.
+
+The message body varies with the type of request and is described in the next section.
+
+\section{Requests and Responses}
+A client may send four different types of request. Your server must handle and respond to 
+requests as json-formatted utf-8 strings.
+
+\textbf{Login}: A login request body looks like this example
+\begin{verbatim}
+    { "action": "login",
+      "params": {"name": "username"}
+    }
+\end{verbatim}          
+Note that there is no authentication of users, so any user name is assumed to belong to a valid user. Usernames uniquely identify a user.
+
+A response body for a login request has the form
+\begin{verbatim}
+    { "action": "login",
+      "result": "ok | error",
+      "errors": []  # a (possibly empty) list of error strings
+    } 
+\end{verbatim}
+
+\textbf{Logout}: A logout request body looks like this example
+\begin{verbatim}
+    { "action": "logout",
+      "params": null
+    }
+\end{verbatim}          
+
+A response body for a logout request has the form
+\begin{verbatim}
+    { "action": "logout",
+      "result": "ok | error",
+      "errors": []  # a (possibly empty) list of error strings
+    } 
+\end{verbatim}
+
+\textbf{Send}: A send request body looks like this example
+\begin{verbatim}
+    { "action": "send_messages",
+      "params": {"messages": [ ...messages...]}
+    }
+\end{verbatim}          
+The server shall process the messages and save them for later delivery to 
+the correct user.
+
+The format of individual messages is described below.
+
+A response body for a send request has the form
+\begin{verbatim}
+    { "action": "send_messages",
+      "result": "ok | error",
+      "errors": []  # a (possibly empty) list of error strings
+    } 
+\end{verbatim}      
+
+\textbf{Get}: A get request body looks like this example
+\begin{verbatim}
+    { "action": "get_messages",
+      "params": {"last_read": "2021-05-23T04:19:45.184775"}
+    }
+\end{verbatim}
+Note that the \texttt{last\_read} parameter may be omitted or may be null. In 
+these cases, the response should deliver every message destined for the logged-in
+user. Otherwise, deliver only messages sent after the \texttt{last\_read} timestamp.
+
+All times are UTC.          
+
+A response body for a get request has the form
+\begin{verbatim}
+    { "action": "get_messages",
+      "result": "ok | error",
+      "messages": [ ...messages... ],
+      "errors": []  # a (possibly empty) list of error strings
+    } 
+\end{verbatim}  
+
+\textbf{Message format}: A json-formatted message has the form
+ \begin{verbatim}
+    { "to": "alice",
+      "from": "bob",
+      "msg": "spam, spam, spam",
+      "sent": "2021-05-23T04:19:45.184776"
+    }
+\end{verbatim}      
+ However, messages sent from a client need only provide the \texttt{to} and \texttt{msg} since
+ the server can fill in the remaining fields when it processes the send request.
+ 
+\section{Functional Requirements}
+Your server shall satisfy the following functional requirements.
+
+1. It should listen for and serve requests on the \texttt{localhost} (IPv4) interface, port 65432.
+
+2. It shall be capable of serving multiple concurrent client requests. In practice, I'll only test it 
+with about four concurrent clients, so it doesn't have to be \emph{webscale}.
+
+3. It shall receive requests and send responses as described above. A sample client is provided, and
+if by some error the client behaviour differs from the description in this document, the client behaviour
+shall be regarded as authoritative.
+
+4. Messages shall be saved in an SQLite database so that they persist across restarts. You may choose to 
+save other information in the database as well.
+
+5. Client requests shall be logged to a logfile, one line per request. The logfile lines should be formatted like
+\begin{verbatim}
+  <timestamp> (ISO 8601):<username>:<request type>:<ok|error>
+\end{verbatim}  
+
+Typically we would expect a server process like this to detach and run as a daemon. This is \emph{not} a 
+requirement, but you are invited to explore doing this.
+
+\section{Architecture}
+This is your opportunity to make your own architectural decisions, but on a high level you'll 
+probably need the following elements:
+
+\begin{itemize}
+  \item A \emph{service} class that handles listening to, reading from, and writing to your sockets.
+  \item One or more \emph{request handler} classes that take processed request data from the service
+  object, perform needed actions, and prepare a response.
+  \item A \emph{message} class to save and retrieve messages.
+  \item A \emph{user} class to handle user information and actions.
+\end{itemize}
+
+There are some opportunities to apply design patterns here, but the right choices depend on your architectural decisions and are 
+up to you.
+
+\section{Delivery}
+Your pull request submitting your assignment should include the following.
+
+\begin{itemize}
+  \item A README file describing any preparation required before running your server and instructions on how to run your server;
+  \item A \texttt{Pipfile/Pipfile.lock} or \texttt{requirements.txt} with any needed libraries.
+  \item The code for your server in a runnable state.
+  \item Unit test files for you code, along with instructions in the README for running your tests. Your tests should include appropriate uses
+  of mocks to isolate the classes being tested.
+\end{itemize}
+
+\section{Marking}
+Your assignment will be marked after testing using clients and examination of your submitted code and resources. Your marks will be based on
+\begin{itemize}
+  \item satisfying the requirements and protocols described in this document;
+  \item the architectural quality of the submitted software, including adherence to SOLID principles and appropriate application of design patterns;
+  \item organisation and readability of code, including PEP 8 compliance.
+\end{itemize}
+
+
+
+         
+\end{document}
