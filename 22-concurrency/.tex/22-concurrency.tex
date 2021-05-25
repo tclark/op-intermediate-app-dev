@@ -1,0 +1,262 @@
+% Beamer slide template prepared by Tom Clark <tom.clark@op.ac.nz>
+% Otago Polytechnic
+% Dec 2012
+
+\documentclass[10pt]{beamer}
+\usetheme{Dunedin}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+
+\newcommand\codeHighlight[1]{\textcolor[rgb]{1,0,0}{\textbf{#1}}}
+
+\title{Concurrency and Parallelism}
+
+\author[IN608]{Intermediate Application Development}
+\institute[Otago Polytechnic]{
+  Otago Polytechnic \\
+  Dunedin, New Zealand \\
+  Kaiako: Tom Clark
+}
+\date{}
+\begin{document}
+
+%----------- titlepage ----------------------------------------------%
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Introduction}
+  
+  Two things that can slow a process down  
+  
+  \begin{itemize}
+    \item Waiting for I/O (I/O bound)
+    \item Heavy  computational load (CPU bound)
+  \end{itemize}  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Concurrency and Parallelism}
+
+  We can improve performance in some of these cases using concurrency and/or
+  parallelism.
+  
+  \begin{itemize}
+    \item If our process is waiting on I/O, then we can use concurrency to 
+    do something else while waiting
+    \item Sometimes a complex computation can be divided into multiple parts 
+    that be run in parallel.
+    \item These techniques can yield great performance gains, but they are 
+    somewhat complex and can lead to difficult bugs.
+  \end{itemize}  
+
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Example: Slow Code}
+  
+  This code, unsurprisingly, spends most of its time waiting.
+  \begin{verbatim}
+  from time import sleep
+  
+  def slow(x):
+      sleep(10)
+      return x
+  
+  def do_tasks(num):
+      for n in range(num):
+          slow(n)
+          
+  do_tasks(5)                                                                                                     
+ \end{verbatim} 
+ This code is very slow since we call \texttt{slow()}, wait for it to 
+ finish, and then call it again repeatedly.
+ 
+     
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Basic Threading}
+  
+  
+  \begin{verbatim}
+  import threading
+  from time import sleep
+  
+  def slow(x):
+      sleep(10)
+      return x
+  
+  def do_threaded_tasks(num):
+      threads = []
+      for n in range(num):
+          t = threading.Thread(target=slow, args=(n,))
+          threads.append(t)
+          t.start()
+      # this next bit is optional
+      for t in threads:
+          t.join()    
+                  
+  do_threaded_tasks(5)      
+  \end{verbatim}
+  This code runs faster since our five invocations of \texttt{slow()} 
+  run ``concurrently''.
+    
+  \end{frame}
+  
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Thread Pools}
+  
+  \begin{verbatim}
+  from time import sleep
+  from concurrent.futures import ThreadPoolExecutor
+  
+      def slow(x):
+          sleep(10)
+          return x
+          
+      def do_threaded_tasks(num):
+          tasks = list(range(num))
+          results = None
+          with ThreadPoolExecutor(max_workers=10) as ex:
+              results = ex.map(slow, tasks)
+          return results
+              
+      do_threaded_tasks(5)  
+  \end{verbatim} 
+  
+  One thing this code does that the previous example did not it collect the
+  return values of the calls to \texttt{slow()}.   
+  \end{frame}
+  
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Race Conditions}
+  
+  \begin{verbatim}
+  def slow(x, results):
+      sleep(10)
+      results.append(x)
+  
+  def do_threaded_tasks(num):
+      threads = []
+      results = []
+      for n in range(num):
+          t = threading.Thread(target=slow, args=(n,results))
+          ...
+                            
+  do_threaded_tasks(5)      
+  \end{verbatim}
+  Now we can get at the results, but there may a problem. All the running 
+  threads write to the shared results list in an uncontrolled way. This can lead to 
+  \emph{race conditions}. However, it turns out the Python lists are \emph{thread safe}.
+    
+  \end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Locking}
+  
+  When threads work with shared memory we need a way to control access.
+  One basic way to to that is locking.
+  
+  Suppose that lists were not thread safe.
+  \begin{verbatim}
+  import threading
+  
+  class ResultList:
+      def __init__(self):
+          self.results = []
+          self._lock = threading.Lock()
+          
+      def append(self, result):
+          with self._lock:
+              self.results.append(result)   
+  \end{verbatim}
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Python Threads}
+  
+  We tend to think of threads as running concurrently. In some languages that's
+  true, and so threads can speed up code that is I/O bound or CPU bound. In standard
+  Python implementations, however, threads are not truly concurrent. This means that
+  they're really only useful for speeding up I/O bound code.
+  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}[fragile]
+  \frametitle{Process Pools}
+  
+  \begin{verbatim}
+  from time import sleep
+  from multiprocessing import Pool
+  
+      def slow(x):
+          sleep(10)
+          return x
+          
+      def do_multiprocess_tasks(num):
+          tasks = list(range(num))
+          results = None
+          with Pool() as p:
+              results = p.map(slow, tasks)
+          return results
+              
+      do_multiprocess_tasks(5)  
+  \end{verbatim} 
+  
+\end{frame}
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Multiprocessing}
+  
+  \begin{itemize}
+    \item Processes can run on other cores and thus run concurrently
+    \item Since each task is run in a separate process with its own memory, race 
+    conditions are less of an issue, but it also means that it is harder to share information.
+    \item The number of processes that can run at one time is limited to the number of cores 
+    on the host
+  \end{itemize}      
+\end{frame}
+
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{References}
+  
+  \begin{itemize}
+    \item Threading: \url{https://docs.python.org/3/library/threading.html}
+    \item Multiprocessing: \url{https://docs.python.org/3/library/multiprocessing.html}
+    \item concurrent.futures: 
+    \url{https://docs.python.org/3/library/concurrent.futures.html}
+   \end{itemize}      
+\end{frame}
+
+
+  
+
+%----------- slide --------------------------------------------------%
+\begin{frame}
+  \frametitle{Programming Activity}
+  
+  \begin{enumerate}
+    \item Pull the course materials repo.
+    \item Create a new branch, \texttt{21-practical} in your practicals repo.
+    \item Add a subdirectory,  \texttt{21-practical} and copy \texttt{21-practical.ipynb} from the class materials into it.
+    \item Open a shell, cd to this directory, and run \texttt{jupyter notebook} to open the notebook. Complete the first two questions.
+  \end{enumerate}      
+\end{frame}
+  
+
+\end{document}
