@@ -155,12 +155,12 @@
   
   query = select(Cat).where(Cat.name == 'Lola')
   # just give us the first matching cat
-  cat = session.execute(query).first()  
+  cat = session.execute(query).scalars().first()  
   
   query = select(Cat).where(
       Cat.age < 5,
       Cat.colour == 'black')
-  cats = session.execute(query)
+  cats = session.execute(query).scalars()
   for cat in cats:
       print(cat.name)       
          
@@ -174,7 +174,7 @@
   
   \begin{verbatim}
   query = select(Cat).where(Cat.name == 'Lola')
-  cat = session.execute(query).first()  
+  cat = session.execute(query).scalars().first()  
   cat.age = 11
   session.commit() 
     
@@ -188,7 +188,7 @@
   
   \begin{verbatim}
   query = select(Cat).where(Cat.name == 'Lola')
-  cat = session.execute(query).first()  
+  cat = session.execute(query).scalars().first()  
   session.delete(cat)
   session.commit() 
   
