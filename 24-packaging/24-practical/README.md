@@ -78,8 +78,6 @@ This command will create a `dist` directory with two package files: a `tar.gz` f
 
 Once your account is ready, create an API token from https://test.pypi.org/manage/account/#api-tokens. Set the scope to the entire account.  Copy and save thetoken, although you can create a new one if necessary.
 
-To upload your packages, you'll need to install `twine`.
-
     pip3 install --user --upgrade twine
 
 And then upload your package with the command
@@ -89,6 +87,7 @@ And then upload your package with the command
 You'll be prompted for a username and password. For the username, enter `__token__`. For the password, paste the token you obtained earlier.
 
 5. Now you can install your package with the command
+
 
     pip3 install --index-url https://test.pypi.org/simple/ your-package-name
 
