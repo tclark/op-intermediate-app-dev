@@ -17,12 +17,14 @@ All of the commands that we will use enter should be entered in the same working
 
 1. Create a `pyproject.toml` file. Since there are multiple build systems for Python packages, the `pyproject.toml` file is intended to provide a generally compatible configuration file than can be used by them. Since we are using setuptools, our project need to include the following
 
+```
     [build-system]
     requires = [
     "setuptools>=42",
     "wheel"
     ]
     build-backend = "setuptools.build_meta"
+```
 
 There are many [other options](https://martin-thoma.com/pyproject-toml/), but this is sufficient for our project.
 
@@ -69,9 +71,9 @@ On Windows you may need to use
 
 This command will create a `dist` directory with two package files: a `tar.gz` file that contains the source distribution used by some old versions of `pip` and a `.whl` file used by newer versions.
 
-4. Finally we need to upload our package to the Python index. We will use the test version of the index in this case. First you'll need to go to (https://test.pypi.org) and create an account.
+4. Finally we need to upload our package to the Python index. We will use the test version of the index in this case. First you'll need to go to https://test.pypi.org and create an account.
 
-Once your account is ready, create an API token from (https://test.pypi.org/manage/account/#api-tokens). Set the scope to the entire account.  Copy and save thetoken, although you can create a new one if necessary.
+Once your account is ready, create an API token from https://test.pypi.org/manage/account/#api-tokens. Set the scope to the entire account.  Copy and save thetoken, although you can create a new one if necessary.
 
 To upload your packages, you'll need to install `twine`.
 
