@@ -17,7 +17,6 @@ All of the commands that we will use enter should be entered in the same working
 
 1. Create a `pyproject.toml` file. Since there are multiple build systems for Python packages, the `pyproject.toml` file is intended to provide a generally compatible configuration file than can be used by them. Since we are using setuptools, our project need to include the following
 
-```
     [build-system]
     requires = [
     "setuptools>=42",
@@ -30,6 +29,7 @@ There are many [other options](https://martin-thoma.com/pyproject-toml/), but th
 
 2. Next, create a `setup.cfg` file that provides information for setuptools. Alternatively, you can  provide a `setup.py` file that determines package informatin dynamically, but a typical project should not need this. Your `setup.cfg` should be similar to this
 
+```
     [metadata]
     name = example-pkg-YOUR-USERNAME-HERE
     version = 0.0.1
@@ -54,10 +54,12 @@ There are many [other options](https://martin-thoma.com/pyproject-toml/), but th
 
     [options.packages.find]
     where = src
+```
 
 Most of these options are pretty self-explanatory. Note that you don't actually need to create a GitHub repo for this lab. Take note of the `options` sections that specify the minimum Python version required for our package, and the location (`src`) of the files that should be installed by the package. Another option is `install_requires` with which you can list any other packages required by this one.
 
 3. Now we are ready to build the package. First, make sure you have the `build` module installed.
+
 
     pip3 install --user --upgrade build
 
