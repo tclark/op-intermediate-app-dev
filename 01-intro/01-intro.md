@@ -24,6 +24,7 @@ We will use the Python programming language for this class. There are a few reas
   You'll need to have the following things on whatever computers you plan to use for work on this paper.
 
 ***Python*** (Version 3.7 or newer)
+
 On Windows there are three ways you can install Python.
   1.  Install the Windows Subsystem for Linux, which will let you use the Python tooling available on Linux. This is probably the easiest option.
   2. Install the [Anaconda](https://www.anaconda.com/products/individual) toolkit. Anaconda is primarily intended to provide tools for data science, but it includes an up-to-date version of Python along with some tools that make it easier to use on Windows. This is what is installed on lab computers.
@@ -34,9 +35,11 @@ For Mac users the process is a bit simpler. OS X ships with Python installed, bu
 Linux users just need to be sure a current Python package is installed using the package manager.
 
 ***A text editor***
+
 The choice of text editor is deeply personal and any programmers' editor will work. If you don't have a strong preference, then Visual Studio Code is a good choice. Microsoft has a good Python language plugin available for VS Code as well.
 
 ***Git***
+
 We will use Git for managing code. You will also need a GitHub account to access course materials and submit assessments.
 
 
