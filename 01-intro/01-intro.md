@@ -13,7 +13,7 @@ At this point you're generally able to write code that works. This semester we w
 
 Of course, we can't expect other programmers to read code that we don't really understand ourselves. If you're like most programmers, at some point you've written some lines of code that you didn't really understand, but you knew that your program didn't work without them. It was basically *magic* So let's just agree that we're not going to do that in this class. Any time you find yourself using code that you don't understand, stop. Do some reading, ask some questions, and figure out what that code does and why you need it.
 
-Even if you do understand your code, that doesn't mean it's readable by others. It needs to be well thought out and organised according to some coherent design. That's something we will work on this semester. We will look at some design principles for code and apply them to our work in this paper.
+Even if you do understand your code, that doesn't mean it's readable by others. It needs to be well thought out and organised according to some coherent design. That's a large part of what we will work on this semester. We will look at some design principles for code and apply them to our work in this paper.
 
 ### Setting up your computer for this class
 We will use the Python programming language for this class. There are a few reasons for this choice.
@@ -42,7 +42,22 @@ The choice of text editor is deeply personal and any programmers' editor will wo
 
 We will use Git for managing code. You will also need a GitHub account to access course materials and submit assessments.
 
+---
+ ### Programming Activity
 
+  1. Install Python, Git if necessary
+  2. Click the GitHub classroom link for the practicals to set up your repo. Follow
+     the instructions on the classroom site.
+  3. Clone that repo on your machine.
+  4. Edit the `README.md` file at the top level of the practicals directory.
+  5. Add, commit, and push to your repo. Confirm that the changes appear.
+  6. Create a new branch, `01-practical` in your repo.
+  7. In the `01-practical` directory, create a file, `hello.py`. In the file put the code 
+     `print('Hello, world')`.
+  8. Add, commit, and push the new file.
+  9. On the GitHub page for your repo, create a pull request for this commit. Identify `tclark` as 
+     the reviewer.
+  
 
 
 
