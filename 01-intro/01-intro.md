@@ -58,6 +58,60 @@ We will use Git for managing code. You will also need a GitHub account to access
   9. On the GitHub page for your repo, create a pull request for this commit. Identify `tclark` as 
      the reviewer.
   
+Since the goal of this activity is to ensure that you can access and submit your labs correctly, it's important that you do this today.
+---
 
+### Coding style
 
+Since we're trying to write readbale code, we need to consider the question of coding *style*. Years ago programmers realised that it was useful to conform to a standard style. It made it easier to recognise the meaning of code when reading it. It also made it easier to code accurately when there was an agreed upon what to name things.
 
+Today most programming languages have an accepted style, but the details differ from language to language. Python has perhaps gone the farthest in this sense in that there is a well documented standard style described in the documnet [PEP 8](https://www.python.org/dev/peps/pep-0008/). This document is long and rather dry, so a [more human readable version](https://pep8.org/) is also available. You should look over these documents, but we'll summarise some important points here. Unlike syntax rules, you *can* break style rules, and sometimes it's acceptable if the resulting code is more readable. Generally, however, you should adhere to these rules.
+
+**File names**: Python source file and directory names should be lower case. Seperate words with an underscore if necessary, but generally keep them short.
+
+**Indenting, line length, and black lines**: 
+  - Python is unusual in the indenting is significant. It's necessary indeinting be consistent, but style guidlines call for indent to be four spaces. If you prefer to use your tab key for indents, text editors can be set to use four spaces in place of a tab character.
+  - Lines should be fewer than 80 characters long.
+  - Class definitions should be seperated with two blank lines. Methods shoule be seperated with one. Top level functions (i.e., not within a class) should be seperated with two lines.
+  
+ **Naming**:
+   - Class names should be `CamelCase`.
+   - Variables, method names, etc. should be `lower_case`/`snake_case`.
+   - Python doesn't have a `constant` declaration, but constants should be in `UPPER_CASE` and variables presented in this way should be regarded as constant. 
+   - If a variable name clashes with a reserved word, you may append a trailing underscore, e.g., `class_`.
+   - Names with double leading/trailing underscores, such as `__init__` are reserved for special attributes. You should not introduce your own names with such underscores.
+
+**Comments and docstrings**:
+
+Block comments should precede the code they describe and be indented to the same level. The comment text should be in complete sentences.
+
+```
+def calibrate(frobnicator, data):
+    # Calibrates the frobnicator using the settings in data.
+    ... code follows
+```
+
+Modules, classes, and public methods should have *docstrings*.
+
+```
+class Parrot:
+    """Represents various types of parrots that may be purchased in
+    a pet store, e.g., a Norwegian Blue.
+    """
+
+    def is_alive(self):
+        """Returns True if the parrot is alive."""
+        return self._alive
+```
+Note that 
+  - Docstrings always use the triple quote notation.
+  - There are no blank lines before and after docstrings.
+  - The closing quotes for a multiline docstring go on a line by themselves.
+
+In this class, docstrings aren't required for routine weekly homework, but your major assessments must include appropriate docstrings.
+
+There are some other styles rules that we will introduce when we also discuss the relevant code.
+
+Many text editors have plugins of options to flag Python style violations. There are also utilities like [flake8](https://flake8.pycqa.org/en/latest/) that will scan your files for style compliance.
+
+ 
