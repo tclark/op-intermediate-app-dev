@@ -153,6 +153,7 @@ class PurebredCat(Cat):
 `PurebredCat` inherits from `Cat`, and we have overridden `Cat`s `__init__()` method. In the new `__init__()` method we use `super()` to call the original `_init__()` method from `Cat`, but that's not a requirement. It's simply useful in this case to avoid repeating the code already supplied by the parent class.
 
 We have not overridden `Cat`'s `meow()` method, so when we call `meow()` on a `PurebredCat` it will just use the parent's method.
+
 ---
 ### Classes: polymorphism and duck typing
 Suppose we have the following classes.
