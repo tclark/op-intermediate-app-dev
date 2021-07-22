@@ -64,7 +64,9 @@ Note that in the last example we don't even need to supply a value for the argum
 def mixed(x, y, z=0):
     return x + y + z
 ```
+
 Typically we use this when some arguments must be provided by the caller and other arguments are optional and only need to be supplied to override the defaults. Note that in this case positional arguments must come before any keyword arguments when both defining and calling the function. 
+
 ---
 
 ### Classes: access
@@ -131,12 +133,14 @@ class Cat:
         if breed in RECOGNISED_BREEDS:
             self._breed = breed
         else:
-            raise ValueError(f'{breed} is not reconised')        
+            raise ValueError(f'{breed} is not recognised')        
 ```
 We did two things here. First, we replaced `self.breed` with `self._breed`, a private attribute. Second, we defined a property setter and getter. To users of the class, the change is transparent.
 ```
 print(my_cat.breed) # calls the property's getter
 my_cat.breed = 'DSH' # calls the setter
+```
+
 ---
 ### Classes: inheritance
 Classes in Python can inherit from other classes.
