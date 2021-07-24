@@ -1,6 +1,6 @@
 
 ## IN608
-## Kaiako: Tom Clark
+## Intermediate Application Development
 ---
 
 ## Session 1: Introduction

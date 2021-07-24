@@ -173,7 +173,7 @@ def AlleyCat(Cat):
         return 'Meow, I am an alley cat.'
 
 
-cats = [Cat(), HouseCat(), AlleyCat] 
+cats = [Cat(), HouseCat(), AlleyCat()] 
 for cat in cats:
     print(cat.meow())
 ```
@@ -196,7 +196,7 @@ def AlleyCat:
         return 'Meow, I am an alley cat.'
 
 
-cats = [Cat(), HouseCat(), AlleyCat] 
+cats = [Cat(), HouseCat(), AlleyCat()] 
 for cat in cats:
     print(cat.meow())
 ```
