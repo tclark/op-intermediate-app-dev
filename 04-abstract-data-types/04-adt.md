@@ -124,4 +124,14 @@ Programming Activity
   5. Work through `q1.py` and `q2.py`. We will discuss these in about 20 minutes.
 
 ---
+### Some more ADTs
+
+### Circular Queue
+Sometimes we want a queue with a maximum length. If we try to add an item that puts if over the maximum, we have two choices. We could just refuse to add the item, possibly raising an exception. On the other hand, we could remove the oldest item from the queue to make room for the new item. Which is correct? It depends on the problem we are trying to solve. If we are implementing the second case, a *circular queue* can be a good structure.
+
+
+### Graphs
+Graphs are extremely common data structures. In fact there are special cases of graphs you may have seen, like linked lists or trees. A graph is just a collection of *nodes* and *edges*.  The nodes hold some piece of data. An edge joins two nodes to represent some sort of connection between them
+
+Graphs can be *directed* or *undirected*. In a directed graph, each edge has a direction, e.g. from NodeA to NodeB, but not necessarily in the other direction. In an undirected graph, there's no direction to an edge. The relationship metween the two nodes can be considered symmetrical. 
 
