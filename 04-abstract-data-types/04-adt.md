@@ -82,7 +82,8 @@ Additional operations:
 
 **Implementations**
 A `list` is not effecient for queue operations, but the `collections` library provides a `deque` that is suitable. It suuports `append()` (enqueue) and `popleft()` (dequeue) operations
- ````
+
+```
 from collections import deque
 queue = deque([])      # deque([])
 queue.append(’apple’)  # deque([’apple’])
@@ -90,7 +91,6 @@ queue.append(’banana’) # deque([’apple’, ’banana’])
 queue.append(’cherry’) # deque([’apple’, ’banana’, ’cherry’]) 
 queue.popleft()        # deque([’banana’, ’cherry’])
 ```
-
 But again, we might want to to implement a full `Queue` class.
 ```
 from collections import deque
