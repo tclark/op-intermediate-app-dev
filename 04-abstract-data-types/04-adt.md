@@ -120,8 +120,8 @@ Programming Activity
   1. Pull the course materials repo
   2. Create a new branch, `04-practical` in your **practicals** repo.
   3. From the course materials repo, copy the contents of the `04-practical` directory.
-  4. There are multiple Python files, `q1.py - q7.py`. Each one contains a programming problem to solve.
-  5. Work through `q1.py`, `q2.py`, and `q3.py`. We will discuss these in about 20 minutes.
+  4. There are multiple Python files, `q1.py - q6.py`. Each one contains a programming problem to solve.
+  5. Work through `q1.py` and `q2.py`. We will discuss these in about 20 minutes.
 
 ---
 
