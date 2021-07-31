@@ -167,3 +167,9 @@ Graphs can be *directed* or *undirected*. In a directed graph, each edge has a d
 
 ![A directed graph (Johannes Rössel, Public domain, via Wikimedia Commons)](https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Directed_acyclic_graph_2.svg/305px-Directed_acyclic_graph_2.svg.png "Directed Graph")
 
+Graphs are frequently used data structures. Some of the well-known special cases of graphs include *trees* and *linked lists*
+
+![A tree (Paddy3118, CC BY-SA 4.0 via Wikimedia Commons](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tree_%28computer_science%29.svg/258px-Tree_%28computer_science%29.svg.png "Tree")
+
+To represent a graph in code, there are multiple possible approaches. Abstractly, a graph is just a list of nodes and a list of edges. A node could be just about any opject, and an edge could be a tuple  of the two nodes it joins.  We could then write a `Graph` class that has two lists, one for nodes and one for edges. This approach works well for undirected graphs. For directed graphas it's often useful to make a `Node` class that does a lot of the work. Such a `Node` would have one attribute for its data and another with a list of the `Nodes`'s *outgoing* edges (probably really a list of the `Node`s to which it is joined by an edge.) In any case, the "correct" approach is one that leads to easily understood and maintained code.
+
