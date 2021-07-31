@@ -161,7 +161,9 @@ One approach is to decline to add the new item because the queue is full. In thi
 ### Graphs
 Graphs are extremely common data structures. In fact there are special cases of graphs you may have seen, like linked lists or trees. A graph is just a collection of *nodes* and *edges*.  The nodes hold some piece of data. An edge joins two nodes to represent some sort of connection between them
 
-![A graph with six nodes and seven edges (User:AzaToth, Public domain, via Wikimedia Commons)](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/6n-graf.svg/333px-6n-graf.svg.png)
+![A graph with six nodes and seven edges (User:AzaToth, Public domain, via Wikimedia Commons)](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/6n-graf.svg/333px-6n-graf.svg.png "Undirected Graph")
 
-Graphs can be *directed* or *undirected*. In a directed graph, each edge has a direction, e.g. from NodeA to NodeB, but not necessarily in the other direction. In an undirected graph, there's no direction to an edge. The relationship metween the two nodes can be considered symmetrical. 
+Graphs can be *directed* or *undirected*. In a directed graph, each edge has a direction, e.g. from NodeA to NodeB, but not necessarily in the other direction. In an undirected graph, there's no direction to an edge. The relationship metween the two nodes can be considered symmetrical.
+
+![A directed graph (Johannes Rössel, Public domain, via Wikimedia Commons)](https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Directed_acyclic_graph_2.svg/305px-Directed_acyclic_graph_2.svg.png "Directed Graph")
 
