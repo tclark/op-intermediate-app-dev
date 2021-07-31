@@ -129,9 +129,39 @@ Programming Activity
 ### Circular Queue
 Sometimes we want a queue with a maximum length. If we try to add an item that puts if over the maximum, we have two choices. We could just refuse to add the item, possibly raising an exception. On the other hand, we could remove the oldest item from the queue to make room for the new item. Which is correct? It depends on the problem we are trying to solve. If we are implementing the second case, a *circular queue* can be a good structure.
 
+Suppose we want a queue with no more than 4 items. We will make a 4-element list to start:
+
+```         
+q = [None, None, None, None]
+q_front = 0
+q_back = 0
+```
+The queue is empty, so all the values are `None`. `q_front` is the location from which we would removes items, but there arent any right now.. `q_back` is the location where we will add the next item. 
+
+Let's add the value 'a' to the queue.
+```
+q[q_back]  = 'a'
+q_back = (q_back  + 1) % 4  # modulo 4
+```
+We adjusted `q_back` since the next time we add something it will go in location 1. Now suppose we add 'b', 'c', and 'd', adjusting `q_back` each time. At this point the list will look like `['a', 'b', 'c', 'd']`. `q_front` is still `0`, since that's the location of the oldest item, and hence the one we should remove next. But `q_back` is also `0`, since the next we we want to add something, that's where it should go. After enqueuing these four items our queue looks like this:
+
+```
+q == ['a', 'b', 'c', 'd']
+q_front == 0
+q_back == 0
+```
+
+Now let's take something out of the queue. We get the item at the index indicated by `q_front` and return its value `'a'`. We also add one to `q_front`, since the next time we want to remove an item it will have to come from the next position over.
+
+If we add 'd' to the queue, then we at it at position `0`, as indicated by `q_back` and then we set `q_back` to `1`. We overwrite the value `'a'`, but that's fine since it's no longer in the queue. Now let's add another value, `'e'`. The value of `q_back` tells us to place it in position `1`, but that would overwite the `'b'` at the front of the queue. What should be do?
+
+One approach is to decline to add the new item because the queue is full. In this case we might raise an exception. But in some applications we might conclude that the value `'b'` at the front of the queue is too "stale" to be relevant any longer. In this case we overwrite that value and increment `q_front` to point at `'c'` since it's now the oldest value in the queue. Which approach is correct depends on the problem we're trying to solve.
+
 
 ### Graphs
 Graphs are extremely common data structures. In fact there are special cases of graphs you may have seen, like linked lists or trees. A graph is just a collection of *nodes* and *edges*.  The nodes hold some piece of data. An edge joins two nodes to represent some sort of connection between them
+
+[A graph with six nodes and seven edges (User:AzaToth, Public domain, via Wikimedia Commons)](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/6n-graf.svg/333px-6n-graf.svg.png)
 
 Graphs can be *directed* or *undirected*. In a directed graph, each edge has a direction, e.g. from NodeA to NodeB, but not necessarily in the other direction. In an undirected graph, there's no direction to an edge. The relationship metween the two nodes can be considered symmetrical. 
 
