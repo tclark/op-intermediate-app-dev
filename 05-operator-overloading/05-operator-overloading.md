@@ -128,6 +128,6 @@ Operator overloading is somewhat controversial. Not all languages support it and
 Implementing appropriate dunder methods is a very “Pythonic” way to do things. Well implemented dunder methods can make your classes easy and productive to use.
 
 Some refs:
-  https://dbader.org/blog/python-dunder-methods 
-  https://docs.python.org/3/reference/datamodel.html#special-method-names
+  - https://dbader.org/blog/python-dunder-methods 
+  - https://docs.python.org/3/reference/datamodel.html#special-method-names
 
