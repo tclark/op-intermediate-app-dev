@@ -2,7 +2,7 @@
 ## Intermediate Application Development
 ---
 
-## Session 4: Operator Overloading and Dunder Methods
+## Session 5: Operator Overloading and Dunder Methods
 
 Let's add two integers, say 2 and 3. Integer addition is a function that takes two arguments and returns their sum We might expect to write it this way:
 ```
