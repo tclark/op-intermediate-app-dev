@@ -70,7 +70,7 @@ b3 = b1 + b2
 ### Other Dunder Methods
 There are other handy dunder methods to implement that aren’t strictly used for operator overloading
 
-**`__str__()` and `__repr__()`**
+### `__str__()` and `__repr__()`
 We’ve already seen that we can use the `__str__()` method to control what happens when our object is passed as an argument to `print()`. The general idea is that `__str__()` should return a user-friendly string. `__repr__()` is similar, but it should return a programmer-friendly string. A good idea is to return a string that matches a call to the constructor method that returns the given object.
 
 ```
@@ -86,7 +86,7 @@ class Cat:
 If a class does not implment `__str__()`, then the `__repr__()` method is used in its place. It's good practice to always implement a `__repr__()` method.
 
 
-**`__bool__()`**
+### `__bool__()`
 Often it's handy to be able to evaluate an object on a boolean context. For example, it's common to do this with strings or lists. We can support the same functionality in our classes with the `__bool__()` method.
 
 ```
@@ -106,7 +106,7 @@ class Flock:
 
 Note the we should only implement `__bool__()` if there is a reasonable boolean interpretation of the objects in question.
 
-**`__len__()`**
+### `__len__()`
 We have seen that we can call `len()` on a list or string to get its length. If we want to make this work for our own classes, we implement `__len__()`.
 
 ```
