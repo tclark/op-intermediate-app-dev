@@ -89,7 +89,7 @@ finally:
 
 ---
 
-### User-Eefined Exceptions
+### User-Defined Exceptions
   - It’s generally preferable to use a built in exception when it suits the error. 
   - Exceptions are just special classes.
   - Exception names should end in `Error`.
