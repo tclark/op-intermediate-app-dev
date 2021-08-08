@@ -119,7 +119,7 @@ Good reasons to handle exceptions include
   - It’s possible to recover from the error and continue execution.
   - The error is unrecoverable, but there are important actions to complete before halting execution.
 
-  References:
-    - https://docs.python.org/3/library/exceptions.html
-    - https://realpython.com/python-exceptions/
+References:
+  - https://docs.python.org/3/library/exceptions.html
+  - https://realpython.com/python-exceptions/
         
