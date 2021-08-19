@@ -1,0 +1,2 @@
+The files `q1.py` - `q5.py` each contain code that violates a SOLID principle. In each file, add your test explaining what principal is violated and why. The explain how you would fix it, including example code if that helps. Note however, that the files don't all contain code that is in a runnable state and the code you present also doesn't have to be runnable. Think of it as pseudocode that explains your design.
+
