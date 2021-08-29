@@ -20,7 +20,7 @@ Objects like `aggregate` that can be used in loops like this are called *interab
 
 "Provide a way to access the elements of an aggregate object sequentially without exposing its underlying implementation." (*GoF*)
 
-This pattern is so fundamental that it is supported in the core Python language. Many common objects implement Iterator, and it is easy to make your own objects that support it too. Incidetally, while last time we havde to discuss the differences between Python decorators and the Decotrator Pattern, in this case it turns out the Python implentation and the classic pattern line up closely.
+This pattern is so fundamental that it is supported in the core Python language. Many common objects implement Iterator, and it is easy to make your own objects that support it too. Incidetally, while last time we had to discuss the differences between Python decorators and the Decotrator Pattern, in this case it turns out the Python implentation and the classic pattern line up closely.
 
 Examples of common interables include
   - Lists
@@ -57,7 +57,7 @@ for i in ls:
     print(i)
 ```
 
-Perhaps the conection is more clear when we look at the following equivalent loop"
+Perhaps the conection is more clear when we look at the following equivalent loop.
 
 ```
 itr = iter(ls)
@@ -72,7 +72,7 @@ So in other words, when we loop over an iterable, we start by obtaining am insta
 
 **Why a seperate iterator?**
 
-At this point it might seem odd that the **iteraable** and the **interator** are distinct objects. There's a good reason for this. Suppose we have a list and we are looping over it in two different threads. It's important that each thread has its own iterator instances so that iterations within one loop don't effect iterations in the other. But there are exceptions to this. For example, a `File` object is its own iterator. This is because we expect to be able to read from file, perhaps in a loop, then stop. Later when we resume reading from the file we expect to pick up frm where we left off in the file. So keep in mind thaat usually an iterable produces distinct iterators, but sometimee we have iterables that are their own iterators - essentially they return themselves when asked for an iterator - when we want different behaviour.
+At this point it might seem odd that the **iteraable** and the **interator** are distinct objects. There's a good reason for this. Suppose we have a list and we are looping over it in two different threads. It's important that each thread has its own iterator instances so that iterations within one loop don't effect iterations in the other. But there are exceptions to this. For example, a `File` object is its own iterator. This is because we expect to be able to read from file, perhaps in a loop, then stop. Later when we resume reading from the file we expect to pick up from where we left off in the file. So keep in mind thaat usually an iterable produces distinct iterators, but sometimee we have iterables that are their own iterators - essentially they return themselves when asked for an iterator - when we want different behaviour.
 
 ---
 
