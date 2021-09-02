@@ -86,12 +86,12 @@ The expression `3:6:1` is a slice. It basically says "start at the element at in
   - The default start is 0, i.e. the start of the sequence. `cat[:6:1]` or `cat[:6]` is `'My cat`. Note that we can **never** omit the first `:` in a slice expression.
   - The default stop is the highest valid index, i.e. the end of the collection. `cat[3::1]` or `cat[3:]` is `'cat is black.'`
 
-  With the above in mind, what is `cat[::]`?
+With the above in mind, what is `cat[::]`?
 
-  Three more important things: 
-    1. When we apply a slice in a sequence, we get a *copy* of the selected values from the sequence. `cat[3:6]` is a completely different string from `cat`. It's not a view into the original string.
-    2. When we obtain a slice of a sequence, we get back the same type as the original sequence. A slice from a string is a string. A slice from a list is a list. (This will be important for the homework.)
-    3. With iteger indices, using an index out of range raise an exception. That's not true with slices. It just ignores the values that don't exist. `cat[72:112]` is just an empty string.
+Three more important things: 
+  1. When we apply a slice in a sequence, we get a *copy* of the selected values from the sequence. `cat[3:6]` is a completely different string from `cat`. It's not a view into the original string.
+  2. When we obtain a slice of a sequence, we get back the same type as the original sequence. A slice from a string is a string. A slice from a list is a list. (This will be important for the homework.)
+  3. With iteger indices, using an index out of range raise an exception. That's not true with slices. It just ignores the values that don't exist. `cat[72:112]` is just an empty string.
 
 
 ---
