@@ -12,7 +12,7 @@
 
 \begin{document}
 
-\title{Assignment 1\\IN608: Intermediate Application Development Concepts \\Semester One, 2021}
+\title{Assignment 1\\IN608: Intermediate Application Development Concepts \\Semester Two, 2021}
 \date{}
 \maketitle
 
@@ -20,10 +20,10 @@
 Below you will find a list of programming problems. You are not expected to do all of them, but instead to choose a subset and complete those. Each problem is worth some number of marks, indicated at the start of the problem. You should probably attempt to complete a set of questions worth about 100 marks. You can't get more than 100 marks on the assignment, but you may want to attempt more than 100 marks worth of problems to maximise your score.
 
 
-Start your work on this assignment by visiting this GitHub Classroom link: \url{https://classroom.github.com/a/rfDZD0UC}. After creating your assignment repository, clone it to your workstation.  Create a ``\texttt{working}'' branch off the main branch. For each problem, create a subdirectory named for the problem number/name (e.g.: \texttt{01-stacks}) and put your code in the appropriate subdirectory. When you are ready to submit your work for marking, issue a pull request, selecting \texttt{tclark} as the reviewer. Note that you get one attempt to submit your work. However, if you make a mistake in your submission, like forgetting to include some files, just let the lecturer know.
+Start your work on this assignment by visiting this GitHub Classroom link: \url{https://classroom.github.com/a/s0tUsFCT}. After creating your assignment repository, clone it to your workstation.  Create a ``\texttt{working}'' branch off the main branch. For each problem, create a subdirectory named for the problem number/name (e.g.: \texttt{01-stacks}) and put your code in the appropriate subdirectory. When you are ready to submit your work for marking, issue a pull request, selecting \texttt{tclark} as the reviewer. Note that you get one attempt to submit your work. However, if you make a mistake in your submission, like forgetting to include some files, just let the lecturer know.
 
 
-Your submission may require some additional libraries in order to run. If this is the case, include either a \texttt{Pipfile/Pipfile.lock} or a \texttt{requirements.txt} file at the top level of your repository. Omitting this will result in a deduction of 5 marks on the assignment. The \texttt{Pipfile} form is recommended.
+Your submission can probably be done using only standard library modules, but it may require some additional libraries in order to run. If this is the case, include either a \texttt{Pipfile/Pipfile.lock} or a \texttt{requirements.txt} file at the top level of your repository. 
 
 This assignment is work 30\% of your total mark in this paper. Each problem will be marked on 
 \begin{itemize}
@@ -34,7 +34,8 @@ This assignment is work 30\% of your total mark in this paper. Each problem will
   \item Application of appropriate types, patterns, and other techniques.
 \end{itemize}  
 
-Assignment submissions are due on 5:00 PM on the 14 of May.
+Assignment submissions are due on 5:00 PM on 1 October.
+
 
 \section*{Problems}
 
@@ -43,12 +44,13 @@ Assignment submissions are due on 5:00 PM on the 14 of May.
 Write a \texttt{Stack} class that uses a linked list for its date storage. Implement \texttt{push}, \texttt{pop}, \texttt{peek}, and \texttt{is\_empty} methods. Include a \texttt{main} section in your file that demonstrates the stack's operations.
 
 \vspace{3mm}
-2. Postfix calculator (20 marks): Typical calculators use \texttt{infix} notation. To enter a calculation, you typically enter the first operand, then the operator, then the second operand. For example, to add 1 and 2 we enter a ``1'', then a ``+'', then a ``2''. But there was a time when \emph{postfix} calculators were popular. With such a calculator you enter the first operand, then the second operand, and finally the operation. So, $1 + 2$ is entered ``1'', then ``2'', then ``+''. There is an advantage to this when entering a recursive expression like $3 + (16 / 5)$. The first operand, ``3'' is easy enough, but the second operand is an expression of its own. With a postfix calculator you would enter ``3'', then ``16'', ``5'', ``/'', and finally ``+''.
+2. Postfix calculator (15 marks): Typical calculators use \texttt{infix} notation. To enter a calculation, you typically enter the first operand, then the operator, then the second operand. For example, to add 1 and 2 we enter a ``1'', then a ``+'', then a ``2''. But there was a time when \emph{postfix} calculators were popular. With such a calculator you enter the first operand, then the second operand, and finally the operation. So, $1 + 2$ is entered ``1'', then ``2'', then ``+''. There is an advantage to this when entering a recursive expression like $3 + (16 / 5)$. The first operand, ``3'' is easy enough, but the second operand is an expression of its own. With a postfix calculator you would enter ``3'', then ``16'', ``5'', ``/'', and finally ``+''.
 
 The most straightforward way to implement a postfix calculator is using a stack. Write a postfix calculator program that takes user input via \texttt{stdin} and carries out its operations using a stack. Your calculator should implement addition, subtraction, multiplication, and division.
+It should be interactive, reading the postfix expression from standard input. The user will enter the complete expression on one line, e.g. ``1 1 2 + *'' and then ``enter''. You may assume that the numbers input will only be integers. You may *not* assume that the entered expression is a well-formed postfix expression, so be sure to handle that error.
 
 \vspace{3mm}
-3. Supermarket queues (25 marks): For this problem you will use software queues to model supermarket queues. First, implement shopper objects that include a \texttt{checkout\_time} attribute that is randomly assigned a value between 60 and 500 seconds. Generate 1000 shopper objects and insert them into 8 queues that represent supermarket checkouts.
+3. Supermarket queues (20 marks): For this problem you will use software queues to model supermarket queues. First, implement shopper objects that include a \texttt{checkout\_time} attribute that is randomly assigned a value between 60 and 500 seconds. Generate 1000 shopper objects and insert them into 8 queues that represent supermarket checkouts.
 
 The simulation logic is just a loop. Each pass through the loop represents one second of simulated time. Each pass through the loop:
 \begin{itemize}
@@ -65,6 +67,10 @@ Run four simulations with the following variations:
   \item Like (2), except two of the eight queues are ``express queues'' that are only available to shoppers having \texttt{checkout\_time} $\leq$ 90.
 \end{enumerate}
 
+When your program is run, it should perform each of the simulation types and report the results for comparison. 
+
+A tip: It would be easy to write this program with a lot of copy-and-paste monkey code. Use a little design thinking to write good, flexible classes with reusable methods. This problem is a good chance to demonstrate your understanding of SOLID.
+ 
 \vspace{3mm}
 4. Decorators (15 marks): Write  a function decorator that wraps a function and logs details about the execution to a file. In particular, every time the function is called, write a log message including:
   \begin{itemize}
@@ -90,16 +96,19 @@ Your decorator should pass the return value of the decorated function back to th
   
   Note that there is a decision to be made here about which end of the list is which.
   
-Optional (10 marks): Add support for accessing list items by index, e.g., \texttt{linkedlist[3]}. To do this your class needs to implement Python's \emph{sequence protocol}.  
+6. Sequences (20 marks): This is an extension to problem 5. You could do this problem without doing problem 5, but it's likely that if you do one, then you'll do both. For this problem you're working with the \texttt{LinkedList} class described above. Implement the required methods to make your \texttt{LinkedList} a \emph{Mutable Sequence}. For guidance on what methods to implement, see the documentation for \texttt{collections.abc.MutableSequence}. It's not necessary that your LinkedList inherit from this abstract base class, but you may choose to do so.
+
+Note that if you do both problems 5 and 6, you may do so by just submitting one file or set of files. That is, you can write one \texttt{LinkedList} class that is both an Iterable and a Sequence.  Just be sure to include a comment in your code making it clear that you've done this.      
 
 \vspace{3mm}  
-6. Observers (25 marks): In the game of Bingo, there is a \emph{caller} who draws and calls out letter-number combinations and there are \emph{players} who listen to the caller and mark any cells on their cards that match the called value. When a player's card has a row, column, or major diagonal
-of filled cells, that player wins. (See \url{http://www.ildado.com/bingo_rules.html} for full American Bingo rules.)  
+7. Observers (20 marks): This problem is inspired by Trademe. Write an auction simulator with two classes \texttt{AuctionItem} and \texttt{Bidder}. Implement the Observer pattern with the \texttt{AuctionItem} as the subject, and the \texttt{Bidder}s as the observers. When a bidder bids on an item, that bidder should be automatically added as an observer. Observers are notified whenever a new bid is placed by any bidder.
 
-For this problem, implement a \texttt{Caller} class and a \texttt{Player} class. The \texttt{Caller} should randomly generate and ``call'' letter-number combinations. The \texttt{Player} should randomly generate a card and then track which card values have been called until it wins. Provide a \texttt{main} section in your code that plays a simulated Bingo game with multiple players.
+Each \texttt{Bidder} shall have a maximum bid attribute. When the bid price for an \texttt{AuctionItem} exceeds a \texttt{Bidder}'s maximum bid, that bidder drops out and unregisters from observing the item. When a bidder receives a notification of a new high bid, that bidder should bid  1 to 10 dollars higher than the current bid. (The increase is determined randomly each time.) The bid should never exceed a bidders maximum, however.
+
+Demonstrate your classes' use with a main section that simulates an auction of one item with ten bidders.
 
 \vspace{3mm}     
-7. Factories: (20 Marks): Given a \texttt{Book} class like the following:
+8. Factories: (20 Marks): Given a \texttt{Book} class like the following:
 \begin{verbatim}
           Book:
               title: string
@@ -115,8 +124,7 @@ Write a program that lets the user enter information about multiple books. When 
 Optional (10 marks): Allow the user to chose to sort the output by title, authors, or copyright date.
 
 \section*{Resources}
-For coding style guidelines, refer to PEP 8 (\url{https://pep8.org/}. You may also find Pylint (\url{https://pylint.org/}) useful. Pylint actually 
-does far more than just style checking.
+For coding style guidelines, refer to PEP 8 (\url{https://pep8.org/}. You may also find Pylint (\url{https://pylint.org/}) or flake8 (\url{https://pypi.org/project/flake8/}) useful.
 
 I \emph{strongly} recommend that you use Pipenv (\url{https://pipenv.pypa.io/en/latest/}) to manage your project environment, especially if you need to import any extra modules outside of the standard library. Real Python has a good article about Pipenv at \url{https://realpython.com/pipenv-guide/}.
 
