@@ -100,9 +100,9 @@ Three more important things:
   1. Pull the course materials repo
   2. Create a new branch, `14-practical` in your **practicals** repo.
   3. From the course materials repo, copy the contents of the `14-practical` directory.
-  4. There are two files, `q1.py` and `q2.py`. Work through `q1.py` now and do `a2.py` after reading the section below.
+  4. There are two files, `q1.py` and `q2.py`. Work through `q1.py` now and do `q2.py` after reading the section below.
   5. We won't discuss these problems since we're not meeting in person, but I will share solutions on teams later.
-  6. Complete the problems in `q4.py` after reading the section below.
+  6. Complete the problem in `q2.py` after reading the section below.
 
 ---
 
