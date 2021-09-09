@@ -138,7 +138,7 @@ class PetFactory(ABC):
         pass
 ```
 
-The idea here is that we're going to decide what kind of pet we want, and then a Factory will get us the appropriate animalwith its matching food and toy. For this to work, we need some animals, foods, and toys.
+The idea here is that we're going to decide what kind of pet we want, and then a Factory will get us the appropriate animal with its matching food and toy. For this to work, we need some animals, foods, and toys.
 
 ```
 class Animal(ABC):
