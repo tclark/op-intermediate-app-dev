@@ -1,7 +1,7 @@
 ## IN608
 ## Intermediate Application Development
 
-## Session 17 :  The Factory Method and Abstract Factory Patterns
+## Session 17 :  Serialisation
 
 ### Introduction
 Sure objects are great, but sometimes we need to move them around. Maybe we want to save an object to a file so we can read it in during a later session. Perhaps we want to send the object over a network to a remote process.
