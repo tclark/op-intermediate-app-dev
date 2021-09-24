@@ -22,6 +22,7 @@ Python's standard pickle module saves Python built-in types and some custom obje
 Pros:
   - Easy to use
   - Efficient
+
 Cons:
   - Python-specific
   - Can't save/load some values
@@ -61,7 +62,7 @@ print(example.data) # prints 42
 Note that in order to un-pickle data, the code that defines classes like the `PickleMe` class above must be accessible in the scope where the un-pickling takes place.
 
 **Security concerns**
-Even though `pickle` doesn't store *arbitraray* code, loading pickled data is code exectution. Never load pickled data from an untrusted source. If you are transmitting pickled data over an untrusted network, use something like the `hmac` module to cryptographically authenticate the data.
+Even though `pickle` doesn't store *arbitrary* code, loading pickled data is code exectution. Never load pickled data from an untrusted source. If you are transmitting pickled data over an untrusted network, use something like the `hmac` module to cryptographically authenticate the data.
 
 ---
 
@@ -87,6 +88,7 @@ Pros:
   - Not Python-dependent
   - Easy
   - Extensible
+
 Cons: 
   - Can't represent some Python values
   - Can't represent custom object without additional code
@@ -179,7 +181,11 @@ deserialised = foo_schema.load(serialised)
 
 The idea here is that we want to serialise/deserialise objects of type `Foo`. We define the `FooSchema` class so that `marshmallow` can use it to work with out `Foo` class.
 
-###References
+***Security concerns***
+
+We should notice that JSON is a much more limited serialisation format than pickle. It simply can't represent the same range of values. But that also means that JSON is a bit safer to handle. That general principle holds up in general. More expressive formats must be handled more carefully. Programmers commonly treat serialisation/deserialisation as routine and even boring, but it is critically important to research the formats and tools we use and make sure that we handle serialised data safely.
+
+### References
 
   - https://docs.python.org/3/library/pickle.html
   - https://docs.python.org/3/library/json.html
