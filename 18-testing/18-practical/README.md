@@ -10,26 +10,25 @@ Complete the exercises below by adding code to the file `tests/test_practical.py
 
 3. Write a unit test that tests `Practical18`'s `add_colour()` method.
 
-4. Write a unit test that shows `Practical18`'s `add_colour()` method  raises an exception if a 
-disallowed colour is added.
-
 **Stop here**. We will discuss solutions in class.
 
 ## Homework
 
-5. Write unit tests for the remaining methods of the `Practical18` class. For methods
-that use `random` or `datetime`, use `patch()` and mocks to mock the behaviours of those modules.
+4. Write a unit test that verifies that `Practical18`'s `add_colour()` method  raises an exception if a 
+disallowed colour is added.
 
-Be sure to cover every (reasonable) test case.
-.
+5. Complete the test cases for the `Practical18` class. Be sure to include tests that cover both normal and error conditions (e.g., cases where a function is called with incorrect values.
+
+
+
 
 
 You can run your tests with the command
 
-  python -m unittest tests/test_practical.py
+  `python -m unittest tests/test_practical.py`
 
 or 
 
-  python -m unittest tests/test_practical.py -v  (for verbose)
+  `python -m unittest tests/test_practical.py -v  (for verbose)`
 
 from this directory

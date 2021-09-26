@@ -1,5 +1,3 @@
-import datetime
-import random
 
 ALLOWED_COLOURS = {'red', 'blue', 'green', 'yellow'}
 
@@ -25,15 +23,8 @@ class Practical18:
     def clear_colours(self):
         self.colours.clear()
 
-    def strange_number(self):
-        return self.num + random.randint(0, 100)
-
     def uppername(self):
         return self.name.upper()
-
-    def is_it_the_weekend(self):
-        today = datetime.datetime.now()
-        return today.weekday() > 5 # Mon == 1, Sun == 7
 
     def side_effect(self, x, y):
         self.colours.add('pink')
