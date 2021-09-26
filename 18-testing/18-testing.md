@@ -85,7 +85,7 @@ With the project organised as shown above, we run our tests from a shell by navi
 python -m unittest tests
 ```
 
-`unittest`s test runner will look for test cases in any file with names starting with `test_` in the `tests` directory and run them.
+`unittest`'s test runner will look for test cases in any file with names starting with `test_` in the `tests` directory and run them.
 We will get output that either tells us our tests all pass, or identifying tests that fail with a brief explanation of the failure.
 
 **Assertions**
