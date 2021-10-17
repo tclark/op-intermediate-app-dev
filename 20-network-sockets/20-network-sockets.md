@@ -15,7 +15,7 @@ It's useful to think about the TCP/IP network model.
 
 We will look at application layer considerations in the next session. As programmers, most of our attention is there. Today we will look at the transport and internet layers. We will focus on TCP and IPv4, but the main ideas hold for other protocols like UDP or IPv6. We aren't especially concerned with the link layer, since that is handled by the operating system.
 
-*** Servers and Clients ***
+** Servers and Clients **
 
 We will discuss writing both client and server applications. There isn't one universal set of definitions for these, but for our purposes
 
@@ -38,7 +38,7 @@ A particular application may act like a server at some times and like a client a
 
 Here's what this looks like in code:
 
-*** Server ***
+** Server **
 ```
 import socket
 
@@ -52,7 +52,7 @@ data = conn.recv(1024)                                 # 8.2
 conn.close()                                           # 9
 ```
 
-*** Client ***
+** Client **
 ```
 import socket
 
@@ -82,7 +82,7 @@ We will cover concurrency in more detail next week, but briefly our options are
 
 We will use selectors today.  
 
-*** Server: setting up the socket and selector ***
+** Server: setting up the socket and selector **
 ```
 import socket
 import selectors
@@ -115,7 +115,7 @@ while True:
 
 When we registered the listener, we set `data=None`. This is why `event.data` is `None` for a new connection. Now we just need to define the functions `accept_connection()` and `service_connections`.
 
-*** Accept connection ***
+** Accept connection **
 
 When a new client connects to the server, this function handles accepting the connection and setting up the client socket.
 ```
@@ -129,7 +129,7 @@ def accept_connection(sock, clients):
 
 Again, notice that we set the connection to be nonblocking once we establish it. We register the newly established connection with our clients selector.
 
-*** Service connection ***
+** Service connection **
 
 When a client with an established connection sends data to the server, or when the server has data to send to the client, this function handles it.
 
