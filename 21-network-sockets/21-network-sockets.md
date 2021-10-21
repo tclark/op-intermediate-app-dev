@@ -81,10 +81,10 @@ def receive(sock):
     while len(data) < 2:
     data = sock.recv(4)
     body_length  = struct.unpack('>H', data[:2])[0]
-        data = data[2:]
-        while len(data) < body_length:
+    data = data[2:]
+    while len(data) < body_length:
         data += sock.recv(4)
-        return data.decode('utf-8')       
+    return data.decode('utf-8')       
 ```
 
 (Yes, calling sock.recv(4) is a bit silly, but it demonstrates our process.)
