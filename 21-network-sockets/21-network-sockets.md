@@ -140,7 +140,7 @@ The process of reading a message is now
   1. Get at least two bytes in an input buffer.
   2. Process the preheader and remove it from the buffer.
   3. Collect enough bytes in the buffer to hold the header.
-  4. Process the header and remove its bytes from the buffer. 5. Collect the bytes for the body and process it.
-  6. Send the message.
+  4. Process the header and remove its bytes from the buffer. 
+  5. Collect the bytes for the body and process it.
 
 At this point we probably have enough structure to warrant a `Message` class. What methods should it have?
