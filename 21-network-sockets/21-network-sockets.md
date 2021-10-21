@@ -79,7 +79,7 @@ def send(txt, sock):
 def receive(sock):
     data = b''
     while len(data) < 2:
-    data = sock.recv(4)
+        data += sock.recv(4)
     body_length  = struct.unpack('>H', data[:2])[0]
     data = data[2:]
     while len(data) < body_length:
