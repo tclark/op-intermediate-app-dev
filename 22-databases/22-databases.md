@@ -167,6 +167,7 @@ class Cat(Base):
 Now for a `Cat` object, we can access things like this:
 
 `lola.clinic.phone_number`
+
 `lola.clinic = gardens_vets`
 
 And a `VetClinic` has a list of cats.
