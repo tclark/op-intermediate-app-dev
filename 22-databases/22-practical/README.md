@@ -1,8 +1,8 @@
-# Practical  21: SQLAlchemy
-To perform today's lab it will be necesary to `pip install sqlalchemy`.
+# Practical  22: SQLAlchemy
+To perform today's lab it will be necessary to `pip install sqlalchemy`.
 
 1.  Write an SQLAlchemy mapped class, `Student` with an integer primary
-key and with fields for name, , email adderess, and anticipated 
+key and with fields for name, , email address, and anticipated 
 graduation year.
 
 Create an `engine` for a local SQLite database and create your table in
