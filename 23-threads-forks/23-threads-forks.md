@@ -1,182 +1,158 @@
 ## IN608
 ## Intermediate Application Development
 
-## Session 22 :  Databases and ORM
+## Session 23 :  Threading and Forking
 
 ### Introduction
-Many of the applications that we build and maintain need to store and retrieve data, often in large amounts. Databases, especially relational databases, are one of our primary tools for handling such data. So it's not surprising that we have developed a lot of tooling to help work with relational databases in our code. Note that while we are focussing on relational databases today, most of the principles we're discussing hold for other types of databases.
+Two things that can slow a process down
+  1. Waiting for I/O (I/O bound)
+  2. Heavy computational load (CPU bound)
 
+We can improve performance in some of these cases using concurrency and/or parallelism.
+  - If our process is waiting on I/O, then we can use concurrency to do something else while waiting
+  - Sometimes a complex computation can be divided into multiple parts that be run in parallel.
+  - These techniques can yield great performance gains, but they are somewhat complex and can lead to difficult bugs.
 
-The match between objects that hold data and relational database records is not perfect. The tools that help manage the connections between the two are generally described as *Object Relational Mapping* (ORM).
+**Example: Slow Code**
 
-**Functions of database/ORM libraries**
+This code, unsurprisingly, spends most of its time waiting.
+  ```
+from time import sleep
 
-  1. Manage connections to a database service
-  2. Create and modify database tables
-  3. Handle CRUD operations on objects/tables
-  4. Abstract out database-specific elements from code
+def slow(x):
+    sleep(10)
+    return x
 
-**SQLAlchemy**
+def do_tasks(num):
+    for n in range(num):
+        slow(n)
 
-The most widely used database/ORM library for Python is *SQLAlchemy*. It's divided into core and ORM modules, making it clear that you can use it without any of the ORM features (although we will). We will use version 1.4 of SQLAlchemy, which includes new features in advance of the 2.0 release. It is not in the Python standard library, so we'll need to use pip to install it.
-
-`pip install --user sqlalchemy==1.4`
-
-or if you're on a Mac, or some Linux distros:
-
-`pip3 install --user sqlalchemy==1.4`
-
-If you're using a virtualenv, then omit the `--user` option.
-
-### Using SQLAlchemy
-
-**Connecting: the Engine**
+do_tasks(5)
 ```
-from sqlalchemy import create_engine
+This code is very slow since we call sleep(), wait for it to finish, and then call it again repeatedly.
 
-# use an SQLite database file names 'practical21.db'
-engine = create_engine('sqlite:///practical22.db',
-    future=True)
+### Basic Threading
+```
+import threading
+from time import sleep
       
-# use a remote Postgres dbms
-engine = create_engine(
-    'postgres://user:password@db.op.ac.nz/dbname')
+def slow(x):
+    sleep(10)
+    return x
+    
+def do_threaded_tasks(num):
+    threads = []
+    for n in range(num):
+        t = threading.Thread(target=slow, args=(n,))
+        threads.append(t)
+        t.start()
+    # this next bit is optional
+    for t in threads:
+        t.join()
 
+do_threaded_tasks(5)
 ```
 
-The engine does not immediately connect to the database, it just provides the ability to connect when it is needed.
-
-**A Database-mapped class**
-
+###Thread Pools
 ```
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Table, Column, Integer, String
+from concurrent.futures import ThreadPoolExecutor
+from time import sleep
 
-Base = declarative_base()
-class Cat(Base):
-    __tablename__ = 'cats'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    breed = Column(String)
-    colour = Column(String)
-    age = Column(Integer)
+def slow(x):
+    sleep(10)
+    return x
+
+def do_threaded_tasks(num):
+    tasks = list(range(num))
+    results = None
+    with ThreadPoolExecutor(max_workers=10) as ex:
+          results = ex.map(slow, tasks)
+    return results
+
+do_threaded_tasks(5)
+```
+One thing this code does that the previous example did not it collect the return values of the calls to slow().
+
+### Race Conditions
+```
+def slow(x, results):
+    sleep(10)
+    results.append(x)
+    
+def do_threaded_tasks(num):
+    threads = []
+    results = []
+    for n in range(num):
+        t = threading.Thread(target=slow, args=(n,results))
+        ...
       
-# we can create the table in the database
-Base.metadata.create_all(engine)
+do_threaded_tasks(5)
 ```
+Now we can get at the results, but there may a problem. All the running threads write to the shared results list in an uncontrolled way. This can lead to *race conditions*. However, it turns out the Python lists are *thread safe*.
 
-**Creating abd Saving Objects**
+### Locking
 
-```
-from sqlalchemy.orm import Session
+When threads work with shared memory we need a way to control access. One basic way to to that is locking.
 
-lola = Cat(name='Lola', breed='Burmese',
-  colour='Black', age=10)
-shadow = Cat(name='Shadow', colour='Grey')
-leo = Cat(name='Leo', breed='Siamese', age=4)
-
-# to work with the ORM features we need a Session
-session = Session(engine)
-session.add(lola)
-session.add(shadow)
-session.add(leo)
-      
-# a commit() is necessary to finally save the cats
-session.commit()
-```
-
-**Querying**
+Suppose that lists were not thread safe.
 
 ```
-from sqlalchemy import select
+import threading
 
-query = select(Cat).where(Cat.name == 'Lola')
-# just give us the first matching cat
-cat = session.execute(query).scalars().first()
-query = select(Cat).where(
-    Cat.age < 5,
-    Cat.colour == 'black')
-cats = session.execute(query).scalars()
-for cat in cats:
-    print(cat.name)
+class ResultList:
+    def __init__(self):
+        self.results = []
+        self._lock = threading.Lock()
+          
+    def append(self, result):
+        with self._lock:
+            self.results.append(result)
 ```
 
-**Updating**
+###  A Note About Python Threads
+We tend to think of threads as running concurrently. In some languages that’s true, and so threads can speed up code that is I/O bound or CPU bound. In standard Python implementations, however, threads are not truly concurrent. This means that they’re really only useful for speeding up I/O bound code.
 
+### Multiprocessing
+  - Processes can run on other cores and thus run in parallel.
+  - Since each task is run in a separate process with its own memory, race conditions are less of an issue, but it also means that it is harder to share information.
+  - The number of processes that can run at one time is limited to the number of cores on the host
+
+
+### Process Pools
 ```
-query = select(Cat).where(Cat.name == 'Lola')
-cat = session.execute(query).scalars().first()
-cat.age = 11
-session.commit()
+from time import sleep
+from multiprocessing import Pool
+from time import sleep
+
+def slow(x):
+    sleep(10)
+    return x
+          
+def do_multiprocess_tasks(num):
+    tasks = list(range(num))
+    results = None
+    with Pool() as p:
+        results = p.map(slow, tasks)
+    return results
+          
+do_multiprocess_tasks(5)
 ```
 
-**Deleting**
 
-```
-query = select(Cat).where(Cat.name == 'Lola')
-cat = session.execute(query).scalars().first()
-session.delete(cat)
-session.commit()
-
-# or
-from sqlalchemy import delete
-session.execute(delete(Cat).where(Cat.name == 'Lola'))
-session.commit()
-```
 
 ---
 ### Programming Activity
   1. Pull the course materials repo
-  2. Create a new branch, `22-practical` in your **practicals** repo.
-  3. From the course materials repo, copy the contents of the `22-practical` directory.
-  4. Follow the directions in the README.md file in the `22-practical` directory.
+  2. Create a new branch, `23-practical` in your **practicals** repo.
+  3. From the course materials repo, copy the contents of the `23-practical` directory.
+  4. Do the first two problems now.  We will discuss them in about 20 minutes.
 ---
 
-### More Complex Objects
 
-Suppose we want to record veterinary clinics and associate them with cats.
-
-```
-class VetClinic(Base):
-    __tablename__ = 'clinics'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    phone_number = Column(String)
-```
-
-
-How do we connect the objects? We want the vet clinic to be an attribute of the Cat class.
-
-**Relationships with foreign keys**
-
-```
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
-
-class Cat(Base):
-    __tablename__ = 'cats'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    breed = Column(String)
-    colour = Column(String)
-    age = Column(Integer)
-    clinic_id = Column(ForeignKey('clinics.id'))
-    clinic = relationship('VetClinic', back_populates='cats')  
-```
-
-Now for a `Cat` object, we can access things like this:
-
-`lola.clinic.phone_number`
-
-`lola.clinic = gardens_vets`
-
-And a `VetClinic` has a list of cats.
-
-`clinic.cats.append(lola)`
 
 ##References
 
-  - SQLAlchemy: SQLAlchemy: https://www.sqlalchemy.org/
-  - SQLAlchemy tutorial (pretty involved): https://docs.sqlalchemy.org/en/14/tutorial/index.html
-
+  - Threading: https://docs.python.org/3/library/threading.html
+  - Multiprocessing: https://docs.python.org/3/library/multiprocessing.html
+  - concurrent.futures: https: //docs.python.org/3/library/concurrent.futures.html
 
