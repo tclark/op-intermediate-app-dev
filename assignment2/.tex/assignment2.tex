@@ -12,15 +12,15 @@
 
 \begin{document}
 
-\title{Assignment 2\\IN608: Intermediate Application Development Concepts \\Semester One, 2021}
+\title{Assignment 2\\IN608: Intermediate Application Development Concepts \\Semester Two, 2021}
 \date{}
 \maketitle
 
 \section*{Directions}
 Your assignment is to write a chat server that implements an instant system. Details on the requirements for the server are describe below. An example
-client for your server is provided in the \texttt{example\_client} subdirectory of the \texttt{assignment2} directory.
+client for your server is provided in the \texttt{example\_client} subdirectory of the \texttt{assignment2} directory. You do not need to write your own client.
 
-Start your work on this assignment by visiting this GitHub Classroom link: \url{https://classroom.github.com/a/aFVjykKU}. After creating your assignment repository, clone it to your workstation.  Create a ``\texttt{working}'' branch off the main branch.  You should make multiple commits to your working branch as you reach various milestones in your work. When you are ready to submit your work for marking, issue a pull request back to the main branch, selecting \texttt{tclark} as the reviewer. Note that you get one attempt to submit your work. However, if you make a mistake in your submission, like forgetting to include some files, just let the lecturer know.
+Start your work on this assignment by visiting this GitHub Classroom link: \url{https://classroom.github.com/a/5E-eQxnX}. After creating your assignment repository, clone it to your workstation.  Create a ``\texttt{working}'' branch off the main branch.  You should make multiple commits to your working branch as you reach various milestones in your work. When you are ready to submit your work for marking, issue a pull request back to the main branch, selecting \texttt{tclark} as the reviewer. Note that you get one attempt to submit your work. However, if you make a mistake in your submission, like forgetting to include some files, just let the lecturer know.
 
 
 Your submission may require some additional libraries in order to run. If this is the case, include either a \texttt{Pipfile/Pipfile.lock} or a \texttt{requirements.txt} file at the top level of your repository. Omitting this will result in a deduction of 5 marks on the assignment. The \texttt{Pipfile} form is recommended.
@@ -28,7 +28,7 @@ Your submission may require some additional libraries in order to run. If this i
 This assignment is work 50\% of your total mark in this paper.
 
 
-Assignment submissions are due on 5:00 PM on the 23rd of June.
+Assignment submissions are due on 5:00 PM on the 18th of November.
 
 \section{Project Overview}
 
@@ -190,8 +190,7 @@ Your pull request submitting your assignment should include the following.
   \item A README file describing any preparation required before running your server and instructions on how to run your server;
   \item A \texttt{Pipfile/Pipfile.lock} or \texttt{requirements.txt} with any needed libraries.
   \item The code for your server in a runnable state.
-  \item Unit test files for you code, along with instructions in the README for running your tests. Your tests should include appropriate uses
-  of mocks to isolate the classes being tested.
+  \item Unit test files for your request handler class(es) (described above), along with instructions in the README for running your tests. Your tests should include appropriate uses of mocks to isolate the classes being tested. Note that you may include more unit tests, but for marking purpose the request handler tests will be checked. If for some reason your design doesn't include something that looks like a request handler, talk to the lecturer about an appropriate class to test.
 \end{itemize}
 
 \section{Marking}
