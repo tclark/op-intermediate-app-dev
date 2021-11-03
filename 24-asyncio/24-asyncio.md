@@ -120,7 +120,7 @@ async def consume(q):
         val = await q.get()
         print(val)
         q.task_done()
-``
+```
 
 ***Assembling the pattern***
 
