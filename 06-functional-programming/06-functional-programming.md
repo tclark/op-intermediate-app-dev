@@ -112,8 +112,8 @@ N.B.: In Python lambdas are limited to only one expression.
 
 ### Programming Activity
   1. Pull the course materials repo
-  2. Create a new branch, `056practical` in your **practicals** repo.
-  3. From the course materials repo, copy the contents of the `05-practical` directory.
+  2. Create a new branch, `06-practical` in your **practicals** repo.
+  3. From the course materials repo, copy the contents of the `06-practical` directory.
   4. There are several Python files, `q1.py` - `q10.py`. Each one contains a programming problem to solve.
   5. Work through `q1.py`, `q2.py`, and `q3.py`. We will discuss it in about 20 minutes.
 
@@ -137,7 +137,7 @@ print(cubes)  # [1, 8, 27, 64, 125]
 
 ```
 def is_odd(num):
-    return x % 2 == 1
+    return num % 2 == 1
       
 nums = [1, 2, 3, 4, 5]
 odds = filter(is_odd, nums)
