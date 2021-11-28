@@ -1,3 +1,6 @@
+# These are just some examples for you to experiment with.
+
+
 import functools
 
 def shouty(wrapped_fn):
