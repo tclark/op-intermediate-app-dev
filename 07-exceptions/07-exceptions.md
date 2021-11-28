@@ -79,7 +79,6 @@ finally:
 ---
 
 ### Programming Activity
-### Programming Activity
   1. Pull the course materials repo
   2. Create a new branch, `07-practical` in your **practicals** repo.
   3. From the course materials repo, copy the contents of the `07-practical` directory.
