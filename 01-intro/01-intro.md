@@ -23,7 +23,7 @@ We will use the Python programming language for this class. There are a few reas
 
   You'll need to have the following things on whatever computers you plan to use for work on this paper.
 
-***Python*** (Version 3.7 or newer)
+***Python*** (Version 3.9 or newer)
 
 On Windows there are three ways you can install Python.
   1.  Install the Windows Subsystem for Linux, which will let you use the Python tooling available on Linux. This is probably the easiest option.
@@ -36,7 +36,7 @@ Linux users just need to be sure a current Python package is installed using the
 
 ***A text editor***
 
-The choice of text editor is deeply personal and any programmers' editor will work. If you don't have a strong preference, then Visual Studio Code is a good choice. Microsoft has a good Python language plugin available for VS Code as well.
+The choice of text editor is deeply personal and any programmers' editor will work. If you don't have a strong preference, then Visual Studio Code is a good choice. Microsoft has a good Python language plugin available for VS Code, and our GitHub classroom repositories include extra support for VS Code.
 
 ***Git***
 
@@ -104,7 +104,7 @@ class Parrot:
         return self._alive
 ```
 Note that 
-  - Docstrings always use the triple quote notation.
+  - Docstrings always use the triple-double quote notation.
   - There are no blank lines before and after docstrings.
   - The closing quotes for a multiline docstring go on a line by themselves.
 
