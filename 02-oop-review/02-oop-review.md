@@ -29,7 +29,7 @@ And we can invoke the `meow()` method like this
 print(my_cat.meow())
 ```
 
-We might infer from this that `__init__()` is the constructor, but that's not strictly true. It's more correct to call in the initialiser. We'll look at this in more detail later in the semester. For now it's just important to know that any setup you want to accomplish when creating an object instance is generally done in its class's `__init__()` method.
+We might infer from this that `__init__()` is the constructor, but that's not strictly true. It's more correct to call in the initialiser. We'll look at this in more detail later in the semester. For now it's just important to know that any setup you want to accomplish when creating an object instance is generally done in its `__init__()` method.
 
 ---
 ### Sidebar: Functions and arguments
