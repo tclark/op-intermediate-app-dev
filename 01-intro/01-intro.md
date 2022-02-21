@@ -6,7 +6,7 @@
 ## Session 1: Introduction
 Materials for this paper are available at my [GitHub Repository](https://github.com/tclark/op-intermediate-app-dev).  You will need to clone this repository. I will make updates and changes to it during the semester, so be sure to run `git pull` on it regularly.
 
-For right now, lets look at the [Course Directive](https://github.com/tclark/op-intermediate-app-dev/raw/main/course_directive/course_directive.pdf).
+For right now, let's look at the [Course Directive](https://github.com/tclark/op-intermediate-app-dev/raw/main/course_directive/course_directive.pdf).
 
 ### Our objective for the semester
 At this point you're generally able to write code that works. This semester we want to take it further and work on writing code that is good. But what does it mean for code to be good? Generally we here about code being extensible or maintainable. A more straightforward way of describing it is that code should be *readable*.   The principal goal of nearly all developments in programming languages is to make code more easily comprehensible to human readers. The fact that this code may also be executed on a computer is basically an amusing side effect.
@@ -18,7 +18,7 @@ Even if you do understand your code, that doesn't mean it's readable by others. 
 ### Setting up your computer for this class
 We will use the Python programming language for this class. There are a few reasons for this choice.
   - It's well supported on all of the operating systems that people in this class are likely to use.
-  - We're emphasising the importance of writing readable code. Python is known for it's readability and the Python community places a lot of value on that quality.
+  - We're emphasising the importance of writing readable code. Python is known for its readability and the Python community places a lot of value on that quality.
   - The lecturer likes Python.
 
   You'll need to have the following things on whatever computers you plan to use for work on this paper.
@@ -65,14 +65,14 @@ Since the goal of this activity is to ensure that you can access and submit your
 
 Since we're trying to write readbale code, we need to consider the question of coding *style*. Years ago programmers realised that it was useful to conform to a standard style. It made it easier to recognise the meaning of code when reading it. It also made it easier to code accurately when there was an agreed upon what to name things.
 
-Today most programming languages have an accepted style, but the details differ from language to language. Python has perhaps gone the farthest in this sense in that there is a well documented standard style described in the documnet [PEP 8](https://www.python.org/dev/peps/pep-0008/). This document is long and rather dry, so a [more human readable version](https://pep8.org/) is also available. You should look over these documents, but we'll summarise some important points here. Unlike syntax rules, you *can* break style rules, and sometimes it's acceptable if the resulting code is more readable. Generally, however, you should adhere to these rules.
+Today most programming languages have an accepted style, but the details differ from language to language. Python has perhaps gone the farthest in this sense in that there is a well documented standard style described in the document [PEP 8](https://www.python.org/dev/peps/pep-0008/). This document is long and rather dry, so a [more human readable version](https://pep8.org/) is also available. You should look over these documents, but we'll summarise some important points here. Unlike syntax rules, you *can* break style rules, and sometimes it's acceptable if the resulting code is more readable. Generally, however, you should adhere to these rules.
 
 **File names**: Python source file and directory names should be lower case. Seperate words with an underscore if necessary, but generally keep them short.
 
 **Indenting, line length, and black lines**: 
-  - Python is unusual in the indenting is significant. It's necessary indeinting be consistent, but style guidlines call for indent to be four spaces. If you prefer to use your tab key for indents, text editors can be set to use four spaces in place of a tab character.
+  - Python is unusual in the indenting is significant. It's necessary indenting be consistent, but style guidlines call for indents to be four spaces. If you prefer to use your tab key for indents, text editors can be set to use four spaces in place of a tab character.
   - Lines should be fewer than 80 characters long.
-  - Class definitions should be seperated with two blank lines. Methods shoule be seperated with one. Top level functions (i.e., not within a class) should be seperated with two lines.
+  - Class definitions should be seperated with two blank lines. Methods should be seperated with one. Top level functions (i.e., not within a class) should be seperated with two lines.
   
  **Naming**:
    - Class names should be `CamelCase`.
