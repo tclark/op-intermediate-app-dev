@@ -1,4 +1,4 @@
-## IN608
+## ID608
 ## Intermediate Application Development
 ---
 
@@ -97,10 +97,10 @@ finally:
   - User-defined exceptions must be explicitly raised in application code.
 
   ```
-class IN608Error(Exception):
+class ID608Error(Exception):
     pass
 
-class InputError(IN608Error):
+class InputError(ID608Error):
     def __init__(self, badinput, message):
         self.input = badinput
         self.message = message
