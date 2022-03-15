@@ -1,4 +1,4 @@
-## IN608
+## ID608
 ## Intermediate Application Development
 ---
 
@@ -97,7 +97,7 @@ enclose()
 print(tom)
 ```
 
-We didn't do amything to define the function `print()`, but clearly the fuction is defined. It is one of the names defined in the *builtin* namespace. This namespace is formed when a Python program starts executing and exists until the program exits.
+We didn't do amything to define the function `print()`, but clearly the function is defined. It is one of the names defined in the *builtin* namespace. This namespace is formed when a Python program starts executing and exists until the program exits.
 
 ### LEGB
 When the Python interpreter looks for a name like tom, it searches the namespaces in the order
@@ -136,9 +136,10 @@ print(mod.num)
 baz = mod.foo()
 ```
 
-`mosd.py` defines a *module*. The import brings the name mod into main.py’s global namespace and we can access its attributes there.
+`mod.py` defines a *module*. The import brings the name `mod` into main.py’s global namespace and we can access its attributes there.
 
 We can also do this:
+
 *mod.py*
 ```
 num = 42
@@ -155,7 +156,7 @@ print(num)
 In this case we bring the name num into `main.py`’s namespace.
 
 ### Modules
-Where does `import` find maodules/packages?
+Where does `import` find modules/packages?
 
 When we use `import mod` the interpreter needs to find the module or package named `mod`. It
 searches the following locations in order.
