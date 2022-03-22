@@ -17,9 +17,9 @@ Among other things, practioners sought to identify a set of good development pra
 
 Most of these problems stem from overly tight coupling of modules or badly structured dependencies.
 
-Martin went on to identify five design principles that help make code resistent to rot. These have come to be known as the SOILD principles. He didn't coin the term "SOLID" however. In part that's because he didn't describe them in the same order and he didn't use the same names in all cases. Today howver, the programming community generally recognises the SOLID principles as a corner stone of object oriented software design. (N.B.: It's also a common source of job interview questions for new developers.)
+Martin went on to identify five design principles that help make code resistent to rot. These have come to be known as the SOILD principles. He didn't coin the term "SOLID" however. In part that's because he didn't describe them in the same order and he didn't use the same names in all cases. Today howver, the programming community generally recognises the SOLID principles as a cornerstone of object oriented software design. (N.B.: It's also a common source of job interview questions for new developers.)
 
-Each of the SOLID principles has a concise description that is commonly used to identify it. In practice I've never found thos statements to be very helpful. I prefer to focus on examples that illustrate the principles. Below we'll look at each of them and consider some examples.
+Each of the SOLID principles has a concise description that is commonly used to identify it. In practice I've never found those statements to be very helpful. I prefer to focus on examples that illustrate the principles. Below we'll look at each of them and consider some examples.
 
 ---
 
@@ -174,7 +174,7 @@ We fix this by defining an interface `Database` that tells `DataRecord` what it 
 
 There's good news and bad news:
   - The good news is that there is **a lot** of stuff written about SOLID principles.
-  - The bad news is that most of it sin't very good.
+  - The bad news is that most of it isn't very good.
 
   In the introduction I mentioned Martin's article that kicked things off. You can access a copy of it at 
 
