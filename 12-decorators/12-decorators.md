@@ -5,7 +5,7 @@
 ## Session 12:  The Decorator Pattern and Python Decorators
 
 ### Introduction
-In this session we will see the classic *Decorator* pattern from GoF. We also also look that the Python language feature with the same name and compare and contrast them. Even though they share the same name and general purpose, and I would argue that they are closely connected, there are important differences between the Decorator pattern and Python decorators. This is a challenging topic, both in its complexity and in the difficulty in coding it. Take the time to work through the problems and understand what is going on. Python decorators are a widely used feature in the language. In my one work I deal with them basically every day.
+In this session we will see the classic *Decorator* pattern from GoF. We also also look that the Python language feature with the same name and compare and contrast them. Even though they share the same name and general purpose, and I would argue that they are closely connected, there are important differences between the Decorator pattern and Python decorators. This is a challenging topic, both in its complexity and in the difficulty in coding it. Take the time to work through the problems and understand what is going on. Python decorators are a widely used feature in the language. In my work I deal with them basically every day.
 
 Here's an example: When a player of one of Runaway’s games is having trouble and raises a support issue, we enable extra logging of that player’s API calls. Then, at runtime we modify the behaviour of API calls just for that player, to log the details of the calls.
 
@@ -116,7 +116,7 @@ class UppercaseDecorator(AbstractDecorator):
 
     def say_goodbye(self):
         msg = self._messenger.say_goodbye()
-        return msg
+        return msg.upper()
  ```
 
  When we use an `UppercaseDecorator` to decorate a `ConcreteMessenger`, we take the results from `say_hello()` and `say_goodbye()` and convert them to upper case before returning them.  
