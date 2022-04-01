@@ -1,4 +1,4 @@
-## IN608
+## ID608
 ## Intermediate Application Development
 ---
 
@@ -7,7 +7,7 @@
 ### Introduction
 In this session we will see the classic *Decorator* pattern from GoF. We also also look that the Python language feature with the same name and compare and contrast them. Even though they share the same name and general purpose, and I would argue that they are closely connected, there are important differences between the Decorator pattern and Python decorators. This is a challenging topic, both in its complexity and in the difficulty in coding it. Take the time to work through the problems and understand what is going on. Python decorators are a widely used feature in the language. In my work I deal with them basically every day.
 
-Here's an example: When a player of one of Runaway’s games is having trouble and raises a support issue, we enable extra logging of that player’s API calls. Then, at runtime we modify the behaviour of API calls just for that player, to log the details of the calls.
+Here's an example: When a player of one of Runaway’s games has trouble and raises a support issue, we enable extra logging of that player’s API calls. Then, at runtime we modify the behaviour of API calls just for that player, to log the details of the calls.
 
 **Decorator Intent**
 
@@ -46,14 +46,14 @@ Class Structuture
                                 |  + operation()    |
                                  -------------------
  ```                                
-Here's what this tells us: Everything here inherits from `Component`, so the Liskov Substitution Principle tells us that anytime we need a `Component`, we can use one of its child classes. The important property of a `Component` is that it provides teh method `operation()`.The important point of difference is that `Decorator` (and its child classes) hold onto another `Component` instance as an attribute and can modify its behaviour.
+Here's what this tells us: Everything here inherits from `AbstractComponent`, so the Liskov Substitution Principle tells us that anytime we need an `AbstractComponent`, we can use one of its child classes. The important property of a `AbstractComponent` is that it provides the method `operation()`. The important point of difference is that `AbstractDecorator` (and its child classes) hold onto another `AbstractComponent` instance as an attribute and can modify its behaviour.
 
 
 
 ### Implementing the pattern
 Let's implement an example. We are going to implement a Messenger class that produces some messages. Then we'll create a Decorator class that can modify a messenger class and change its behaviour.
 
-First, we need a base class, which has the role of `Component` in the diagram above.
+First, we need a base class, which has the role of `AbstractComponent` in the diagram above.
 ```
 from abc import ABC, abstractmethod
 
