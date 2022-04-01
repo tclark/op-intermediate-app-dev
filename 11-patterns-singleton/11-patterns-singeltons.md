@@ -1,4 +1,4 @@
-## IN608
+## ID608
 ## Intermediate Application Development
 ---
 
@@ -30,18 +30,18 @@ With that said, we're going to consider some well known design patterns over the
 
 The description above is pretty clear and helpful, which can't be said of all the descriptions in *GoF*. Both points are important:
   - We only want to have one instance of a singleton object.
-  - We want to be able te access this object easily anywhere in our code.
+  - We want to be able to access this object easily anywhere in our code.
 
 In Python, `None` is a singleton.
 
-Typically we implement a singleton by implementing the class' constructor so that it always returns int eh same instance.  The authors of *GoF* didn't do it that way, becuase they were working with a version of C++ that made this impossible. Instead, they took the following approach:
+Typically we implement a singleton by implementing the class' constructor so that it always returns the same instance.  The authors of *GoF* didn't do it that way, because they were working with a version of C++ that made this impossible. Instead, they took the following approach:
 
 ```
 class SoloGoF:
     _instance = None  # This is a class variable
     
     def __init__(self):
-        raise RuntimeError(’Use instance() instead.’)
+        raise RuntimeError('Use instance() instead.')
         
     @classmethod
     def instance(cls):
@@ -69,7 +69,7 @@ The end result of all this is that any tiime we need to get at the `SoloGoF` obj
 
 ---
 
-Remeber that I said that the *GoF* authors were working with a language that didn't let them implement a constructor that did what they wanted, so they had to use the special `instance()` methos above.  In Python we don;t have that limitation, so we can writs a more Pythonic version like this:
+Remember that I said that the *GoF* authors were working with a language that didn't let them implement a constructor that did what they wanted, so they had to use the special `instance()` method above.  In Python we don't have that limitation, so we can write a more Pythonic version like this:
 
 ```
 class SoloPy:
@@ -86,7 +86,7 @@ solo = SoloPy()
 ```
 This isn't much different than the first version, except we didn't need to write a special `instance()` method. There are two interesting things to notice, however. 
 
-From the definition of `__new__()`, it looks like a class methos, but it lacks the `@classmethos` decorator. That's because `__new__()` is always a class method, so it doesn't need the decorator.
+From the definition of `__new__()`, it looks like a class method, but it lacks the `@classmethod` decorator. That's because `__new__()` is always a class method, so it doesn't need the decorator.
 
 Recall that I said that `__init__()` is not a constructor, even though we seem to treat it like one. In fact, `__new__()` is the constructor. We almost never override it because there rarely a reason to do so. In fact, notice that we call `SoloPy`'s super class constructor explicitly so that we can get its default behaviour.
 
@@ -117,21 +117,21 @@ This is fair. Earlier I said one problem with patterns was that sometime program
 
 Again, if you might need more than one, don't use singletons. In fact, you should only use them when  it's really important to only create one instance.
 
-**Singeltons are thinly diguised globals.**
+**Singletons are thinly diguised globals.**
 
 The problem with globals is that they are these values flying around in your code that aren't well controlled. The same problem can arise with singeltons. However, with a singelon object you can use things like encapsualtion to excersice some control over how the object is used.
 
-**It's diffeicult to test code with singeltonss because you can't control their construction.**
+**It's difficult to test code with singletons because you can't control their construction.**
 
-This is a valid and important criticism. It's best to use singeltons in ways that are fairly simple and easy to test. When we do test with singletons, we need to be sure that we can reiably predict their states when testing.
+This is a valid and important criticism. It's best to use singletons in ways that are fairly simple and easy to test. When we do test with singletons, we need to be sure that we can reliably predict their states when testing.
 
 ---
 
-### Singelton using modules
+### Singleton using modules
 
 The singleton implementations above are interesting as examples of how we can slove this problem, but the truth is that neither are examples of how I would implement a singleton in Python. There's a way that is simpler and that address some of the criticisms.
 
-Recently we looked at Python modules. Recall that we can import a module's contents into our namespaces easily, and also that a modfule's code is only excuted **one time** when it is first imported. Subsequent imports used the cached result. We can exploit this to make a singleton
+Recently we looked at Python modules. Recall that we can import a module's contents into our namespaces easily, and also that a module's code is only executed **one time** when it is first imported. Subsequent imports used the cached result. We can exploit this to make a singleton
 
 File: *solomod.py*:
 ```
