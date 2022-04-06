@@ -14,13 +14,13 @@ like iterables, sequence types hold collections of objects. Basically all sequen
 Examples of built-in sequences:
   - Lists
   - Tuples
-
   - Strings
+
 Examples of built-in interable that are **not** sequences:
   - Sets
   - Dictionaries
 
-  We'll mainly use strings as examples, since they are easy to visualise.
+We'll mainly use strings as examples, since they are easy to visualise.
 
 ### Accessing sequence elements by index
 
