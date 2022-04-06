@@ -14,6 +14,7 @@ like iterables, sequence types hold collections of objects. Basically all sequen
 Examples of built-in sequences:
   - Lists
   - Tuples
+
   - Strings
 Examples of built-in interable that are **not** sequences:
   - Sets
