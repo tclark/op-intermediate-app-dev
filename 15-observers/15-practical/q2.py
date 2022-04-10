@@ -9,7 +9,7 @@ class Observer:
         print(f'{self.name} - subject state: {subject.state}')
 
 class Subject:
-    def __init__self, state):
+    def __init__(self, state):
         self._state = state
         
     @property
@@ -20,9 +20,10 @@ class Subject:
     def state(self, state):
         self._state = state
         
-sub = Subject()
-obs1 = Observer()
-obs2 = Observer()
+
+sub = Subject('eggs')
+obs1 = Observer('Observer 1')
+obs2 = Observer('Observer 2')
 sub.register(obs1)
 sub.register(obs2)
 sub.state = 'spam'
