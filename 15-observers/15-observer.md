@@ -27,7 +27,7 @@ class Subject:
     def __init__(self):
         self._observers = set()
 
-    def register(self, observers):
+    def register(self, observer):
         self._observers.add(observer)
 
     def unregister(self, observer):
