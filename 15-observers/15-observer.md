@@ -57,7 +57,7 @@ class Observer:
   3. From the course materials repo, copy the contents of the `15-practical` directory.
   4. There are two files, `q1.py` and `q2.py`. Work through them now.
   5. We won't discuss these problems since we're not meeting in person, but I will share solutions on teams later.
-  6. Complete the problems in `q3.py` after reading the section below.
+  6. Complete the problems in `q3.py` and `q4.py` after reading the section below.
 
 ---
 
