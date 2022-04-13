@@ -4,7 +4,7 @@
 ## Session 16 :  The Factory Method and Abstract Factory Patterns
 
 ### Introduction
-Today we're looking at two distinct patterns with similar names. On reason were doing this is to make it clear to everyone that these are *two distinct patterns*. It also turns out that I don't like these patterns very much. But that's not because they're bad patterns. It's just that I have seen them misused enough to raise my hackles when I see them now. Using pattterns does not make us good programmers. Thinking about our problems, recognising that there is an established pattern that addresses it, and implemeting that pattern thoughtfully does.
+Today we're looking at two distinct patterns with similar names. On reason were doing this is to make it clear to everyone that these are *two distinct patterns*. It also turns out that I don't like these patterns very much. But that's not because they're bad patterns. It's just that I have seen them misused enough to raise my hackles when I see them now. Using pattterns does not make us good programmers. Thinking about our problems, recognising that there is an established pattern that addresses it, and implemeting that pattern thoughtfully does. Today's patterns are helpful when used well.
 
 Let's dig into the first one.
 
