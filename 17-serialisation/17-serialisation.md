@@ -29,6 +29,7 @@ Cons:
   - Security concerns
 
 **Pickle versions**
+
 There are currently six versions of the pickle protocol.
   - Versions 0 -2: Too old, don't care
   - Version 3: introduced in Python 3.0
@@ -62,6 +63,7 @@ print(example.data) # prints 42
 Note that in order to un-pickle data, the code that defines classes like the `PickleMe` class above must be accessible in the scope where the un-pickling takes place.
 
 **Security concerns**
+
 Even though `pickle` doesn't store *arbitrary* code, loading pickled data is code exectution. Never load pickled data from an untrusted source. If you are transmitting pickled data over an untrusted network, use something like the `hmac` module to cryptographically authenticate the data.
 
 ---
@@ -133,6 +135,7 @@ json_z = json.dumps(z, cls=ComplexEncoder)
 ```
 
 **Adding serialisation to a class**
+
 Since the `json` module can't handle custom classes, a typical approach is to add serialisation methods to the class.
 
 ```
@@ -155,6 +158,7 @@ restored_foo = Foo.loads(json_foo)
 ```
 
 **More robust serialisation**
+
 The pip-installable module `marshmallow` provides a more robust approach to JSON (and other) serialisation.
 
 ```
@@ -181,7 +185,7 @@ deserialised = foo_schema.load(serialised)
 
 The idea here is that we want to serialise/deserialise objects of type `Foo`. We define the `FooSchema` class so that `marshmallow` can use it to work with out `Foo` class.
 
-***Security concerns***
+**Security concerns**
 
 We should notice that JSON is a much more limited serialisation format than pickle. It simply can't represent the same range of values. But that also means that JSON is a bit safer to handle. That general principle holds up in general. More expressive formats must be handled more carefully. Programmers commonly treat serialisation/deserialisation as routine and even boring, but it is critically important to research the formats and tools we use and make sure that we handle serialised data safely.
 
