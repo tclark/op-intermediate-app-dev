@@ -64,7 +64,7 @@ class TestMultiplier(unittest.TestCase):
         self.m = Multiplier()
 
     @patch('multiplier.multiplier.random')
-    def test_multiply(self):
+    def test_multiply(self, mock_random):
         mock_random.randint.return_value = 2
         result = self.m.multiply(2)
         self.assertEqual(result, 4)
