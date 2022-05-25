@@ -1,4 +1,4 @@
-## IN608
+## ID608
 ## Intermediate Application Development
 
 ## Session 22 :  Databases and ORM
@@ -18,7 +18,7 @@ The match between objects that hold data and relational database records is not 
 
 **SQLAlchemy**
 
-The most widely used database/ORM library for Python is *SQLAlchemy*. It's divided into core and ORM modules, making it clear that you can use it without any of the ORM features (although we will). We will use version 1.4 of SQLAlchemy, which includes new features in advance of the 2.0 release. It is not in the Python standard library, so we'll need to use pip to install it.
+The most widely used database/ORM library for Python is *SQLAlchemy*. It's divided into core and ORM modules, making it clear that you can use it without any of the ORM features (although we will). We will use version 1.4 of SQLAlchemy, which includes new features in advance of the 2.0 release. It is not in the Python standard library, so we'll need to use pip to install it. (It's already installed on the lab machines.)
 
 `pip install --user sqlalchemy==1.4`
 
@@ -65,7 +65,7 @@ class Cat(Base):
 Base.metadata.create_all(engine)
 ```
 
-**Creating abd Saving Objects**
+**Creating and Saving Objects**
 
 ```
 from sqlalchemy.orm import Session
